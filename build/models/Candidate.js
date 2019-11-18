@@ -12,7 +12,7 @@ const CandidateSchema = new mongoose_1.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true // enforcing unique candidate name
     },
     img: {
         type: String,
@@ -67,8 +67,7 @@ const CandidateSchema = new mongoose_1.Schema({
     stances: [{
             key: {
                 type: String,
-                required: true,
-                unique: true
+                required: true
             },
             stance: {
                 type: String,

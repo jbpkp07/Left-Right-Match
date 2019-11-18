@@ -3,11 +3,55 @@ import { terminal } from "terminal-kit";
 
 import { config } from "../config/config";
 import { bernieSeed } from "../db/seeds/bernieSeed";
-import { Candidates } from "../models/Candidate";
+import { bidenSeed } from "../db/seeds/bidenSeed";
+import { trumpSeed } from "../db/seeds/trumpSeed";
+import { userSeed } from "../db/seeds/userSeed";
+import { warrenSeed } from "../db/seeds/warrenSeed";
+import { Candidates, ICandidate, IStance, IStancesObj } from "../models/Candidate";
 import { Issues } from "../models/Issue";
+import { ICandidateMatch, Users } from "../models/User";
 import { printHeader } from "../utility/printHeaderFunctions";
 import { issuesSeed } from "./seeds/issuesSeed";
 
+function createCandidateMatch(candidateSeed: ICandidate): ICandidateMatch {
+
+    const candidateStancesObj: IStancesObj = {};
+
+    candidateSeed.stances.forEach((stance: IStance) => candidateStancesObj[stance.key] = stance.stance);
+
+    let candidateScore: number = 0;
+
+    for (const userStance of userSeed.stances) {
+
+        if (candidateStancesObj[userStance.key] === userStance.stance) { 
+            
+            candidateScore++; 
+        }
+    }
+
+    const candidateMatch: ICandidateMatch = {
+
+        name: candidateSeed.name,
+        img: candidateSeed.img,
+        percentageMatch: Math.floor((candidateScore / userSeed.stances.length) * 100)
+    };
+
+    return candidateMatch;
+}
+
+const matches: ICandidateMatch[] = [];
+
+matches.push(createCandidateMatch(bernieSeed));
+matches.push(createCandidateMatch(warrenSeed));
+matches.push(createCandidateMatch(bidenSeed));
+matches.push(createCandidateMatch(trumpSeed));
+
+matches.sort((a: ICandidateMatch, b: ICandidateMatch): number => {
+
+    return a.percentageMatch < b.percentageMatch ? 1 : -1;
+});
+
+userSeed.matches = matches;
 
 const options: mongoose.ConnectionOptions = {
 
@@ -29,13 +73,15 @@ mongoose.connect(config.MONGODB_URI, options)
         const promises: Promise<any>[] = [];
 
         promises.push(Issues.deleteMany({}).exec());
-        
+
         promises.push(Candidates.deleteMany({}).exec());
+
+        promises.push(Users.deleteMany({}).exec());
 
         return Promise.all(promises);
     })
     .then(async () => {
-        
+
         terminal.brightGreen("Done!\n\n");
 
         terminal.white("  Inserting Issues ► ");
@@ -43,15 +89,47 @@ mongoose.connect(config.MONGODB_URI, options)
         return Issues.insertMany(issuesSeed);
     })
     .then(async () => {
-        
+
         terminal.brightGreen("Done!\n\n");
 
         terminal.white("  Inserting Candidate: Bernie Sanders ► ");
 
         return Candidates.create(bernieSeed);
     })
+    .then(async () => {
+
+        terminal.brightGreen("Done!\n\n");
+
+        terminal.white("  Inserting Candidate: Elizabeth Warren ► ");
+
+        return Candidates.create(warrenSeed);
+    })
+    .then(async () => {
+
+        terminal.brightGreen("Done!\n\n");
+
+        terminal.white("  Inserting Candidate: Joe Biden ► ");
+
+        return Candidates.create(bidenSeed);
+    })
+    .then(async () => {
+
+        terminal.brightGreen("Done!\n\n");
+
+        terminal.white("  Inserting Candidate: Donald Trump ► ");
+
+        return Candidates.create(trumpSeed);
+    })
+    .then(async () => {
+
+        terminal.brightGreen("Done!\n\n");
+
+        terminal.white("  Inserting Test User ► ");
+
+        return Users.create(userSeed);
+    })
     .then(() => {
-        
+
         terminal.brightGreen("Done!\n\n");
 
         terminal.cyan("  Seeding database finished.\n");

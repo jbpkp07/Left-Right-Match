@@ -7,6 +7,11 @@ export interface IStance {
     stance: string;
 }
 
+export interface IStancesObj {
+
+    [key: string]: string;
+}
+
 export interface IContactInfo {
 
     websites: string[];
@@ -42,7 +47,7 @@ const CandidateSchema: Schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true  // enforcing unique candidate name
     },
     img: {
         type: String,
@@ -97,8 +102,7 @@ const CandidateSchema: Schema = new Schema({
     stances: [{
         key: {
             type: String,
-            required: true,
-            unique: true
+            required: true
         },
         stance: {
             type: String,

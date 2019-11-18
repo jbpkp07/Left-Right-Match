@@ -12,7 +12,7 @@ const IssueSchema = new mongoose_1.Schema({
     key: {
         type: String,
         required: true,
-        unique: true // validation check to add unique Issues by scraped key
+        unique: true // validation check to add unique issues by scraped key
     },
     question: {
         type: String,

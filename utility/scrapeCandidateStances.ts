@@ -3,7 +3,7 @@ import cheerio from "cheerio";
 import fs from "fs";
 import { terminal } from "terminal-kit";
 
-import { IStance } from "../models/Candidate";
+import { IStance } from "../db/models/Candidate";
 
 const issueElements: string = "div.sec_body_group.t_";
 const keyAttribute: string = "class";

@@ -7,11 +7,6 @@ export interface IStance {
     stance: string;
 }
 
-export interface IStancesObj {
-
-    [key: string]: string;
-}
-
 export interface IContactInfo {
 
     websites: string[];

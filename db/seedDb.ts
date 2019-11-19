@@ -1,29 +1,30 @@
+import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import { terminal } from "terminal-kit";
 
 import { config } from "../config/config";
+import { Candidates, ICandidate, IStance } from "../db/models/Candidate";
+import { Issues } from "../db/models/Issue";
+import { ICandidateMatch, Users } from "../db/models/User";
 import { bernieSeed } from "../db/seeds/bernieSeed";
 import { bidenSeed } from "../db/seeds/bidenSeed";
 import { trumpSeed } from "../db/seeds/trumpSeed";
 import { userSeed } from "../db/seeds/userSeed";
 import { warrenSeed } from "../db/seeds/warrenSeed";
-import { Candidates, ICandidate, IStance, IStancesObj } from "../models/Candidate";
-import { Issues } from "../models/Issue";
-import { ICandidateMatch, Users } from "../models/User";
 import { printHeader } from "../utility/printHeaderFunctions";
 import { issuesSeed } from "./seeds/issuesSeed";
 
 function createCandidateMatch(candidateSeed: ICandidate): ICandidateMatch {
 
-    const candidateStancesObj: IStancesObj = {};
+    const candidateStances: Map<string, string> = new Map<string, string>(); // comparing against map keys allows O(1) search complexity
 
-    candidateSeed.stances.forEach((stance: IStance) => candidateStancesObj[stance.key] = stance.stance);
+    candidateSeed.stances.forEach((stance: IStance) => candidateStances.set(stance.key, stance.stance));
 
     let candidateScore: number = 0;
 
     for (const userStance of userSeed.stances) {
 
-        if (candidateStancesObj[userStance.key] === userStance.stance) { 
+        if (candidateStances.get(userStance.key) === userStance.stance) { 
             
             candidateScore++; 
         }
@@ -53,6 +54,8 @@ matches.sort((a: ICandidateMatch, b: ICandidateMatch): number => {
 
 userSeed.matches = matches;
 
+userSeed.password = bcrypt.hashSync(userSeed.password, bcrypt.genSaltSync(10));
+
 const options: mongoose.ConnectionOptions = {
 
     useNewUrlParser: true,
@@ -77,7 +80,7 @@ mongoose.connect(config.MONGODB_URI, options)
         promises.push(Candidates.deleteMany({}).exec());
 
         promises.push(Users.deleteMany({}).exec());
-
+        
         return Promise.all(promises);
     })
     .then(async () => {
@@ -140,5 +143,5 @@ mongoose.connect(config.MONGODB_URI, options)
 
         console.log(err);
 
-        process.exit(0);
+        process.exit(1);
     });

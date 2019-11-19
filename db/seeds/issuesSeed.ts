@@ -1,5 +1,5 @@
 // tslint:disable: max-file-line-count
-import { IIssue } from "../../models/Issue";
+import { IIssue } from "../../db/models/Issue";
 
 
 export const issuesSeed: IIssue[] = [

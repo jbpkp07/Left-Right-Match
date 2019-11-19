@@ -7,7 +7,7 @@ import { terminal } from "terminal-kit";
 
 import { config } from "../config/config";
 // import { Books, IBook, IBookDoc } from "../models/book";
-import { apiRoutes } from "../routes/apiRoutes";
+import { apiRoutes } from "./routes/apiRoutes";
 
 
 export class Controller {

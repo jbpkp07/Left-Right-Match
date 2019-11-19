@@ -3,25 +3,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const terminal_kit_1 = require("terminal-kit");
 const config_1 = require("../config/config");
+const Candidate_1 = require("../db/models/Candidate");
+const Issue_1 = require("../db/models/Issue");
+const User_1 = require("../db/models/User");
 const bernieSeed_1 = require("../db/seeds/bernieSeed");
 const bidenSeed_1 = require("../db/seeds/bidenSeed");
 const trumpSeed_1 = require("../db/seeds/trumpSeed");
 const userSeed_1 = require("../db/seeds/userSeed");
 const warrenSeed_1 = require("../db/seeds/warrenSeed");
-const Candidate_1 = require("../models/Candidate");
-const Issue_1 = require("../models/Issue");
-const User_1 = require("../models/User");
 const printHeaderFunctions_1 = require("../utility/printHeaderFunctions");
 const issuesSeed_1 = require("./seeds/issuesSeed");
 function createCandidateMatch(candidateSeed) {
-    const candidateStancesObj = {};
-    candidateSeed.stances.forEach((stance) => candidateStancesObj[stance.key] = stance.stance);
+    const candidateStances = new Map(); // comparing against map keys allows O(1) search complexity
+    candidateSeed.stances.forEach((stance) => candidateStances.set(stance.key, stance.stance));
     let candidateScore = 0;
     for (const userStance of userSeed_1.userSeed.stances) {
-        if (candidateStancesObj[userStance.key] === userStance.stance) {
+        if (candidateStances.get(userStance.key) === userStance.stance) {
             candidateScore++;
         }
     }
@@ -41,6 +42,7 @@ matches.sort((a, b) => {
     return a.percentageMatch < b.percentageMatch ? 1 : -1;
 });
 userSeed_1.userSeed.matches = matches;
+userSeed_1.userSeed.password = bcrypt_1.default.hashSync(userSeed_1.userSeed.password, bcrypt_1.default.genSaltSync(10));
 const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -94,5 +96,5 @@ mongoose_1.default.connect(config_1.config.MONGODB_URI, options)
 })
     .catch((err) => {
     console.log(err);
-    process.exit(0);
+    process.exit(1);
 });

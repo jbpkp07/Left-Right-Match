@@ -3,7 +3,7 @@ import cheerio from "cheerio";
 import fs from "fs";
 import { terminal } from "terminal-kit";
 
-import { IIssue } from "../models/Issue";
+import { IIssue } from "../db/models/Issue";
 
 const quizURL: string = "https://www.isidewith.com/elections/2020-presidential-quiz";
 const issueElements: string = "div.sec.sub3.subIssue";

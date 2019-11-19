@@ -2,8 +2,8 @@ import fs from "fs";
 import path from "path";
 import { terminal } from "terminal-kit";
 
-import { IStance } from "../models/Candidate";
-import { IIssue } from "../models/Issue";
+import { IStance } from "../db/models/Candidate";
+import { IIssue } from "../db/models/Issue";
 
 const pruneQuestions: boolean = false;
 const isPruned: boolean = true;

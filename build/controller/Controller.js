@@ -11,7 +11,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const terminal_kit_1 = require("terminal-kit");
 const config_1 = require("../config/config");
 // import { Books, IBook, IBookDoc } from "../models/book";
-const apiRoutes_1 = require("../routes/apiRoutes");
+const apiRoutes_1 = require("./routes/apiRoutes");
 class Controller {
     // private readonly Books: Model<IBookDoc> = Books;
     constructor() {

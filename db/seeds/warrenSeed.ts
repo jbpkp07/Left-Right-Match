@@ -1,4 +1,4 @@
-import { ICandidate } from "../../models/Candidate";
+import { ICandidate } from "../../db/models/Candidate";
 
 
 export const warrenSeed: ICandidate = {

@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const terminal_kit_1 = require("terminal-kit");
 const config_1 = require("./config/config");
 const Controller_1 = require("./controller/Controller");
-const printHeaderFunctions_1 = require("./utility/printHeaderFunctions");
+// import { printHeader } from "./utility/printHeaderFunctions";
 const controller = new Controller_1.Controller();
 const app = express_1.default();
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express_1.default.static(config_1.config.publicAssetsPath));
 }
 app.use(controller.router);
-printHeaderFunctions_1.printHeader();
+// printHeader();
 controller.connectDatabase()
     .then(() => {
     app.listen(config_1.config.port, () => {

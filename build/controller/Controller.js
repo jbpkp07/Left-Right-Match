@@ -7,25 +7,27 @@ const axios_1 = __importDefault(require("axios"));
 const cheerio_1 = __importDefault(require("cheerio"));
 const express_1 = __importDefault(require("express"));
 // import mongoose, { Model } from "mongoose";
-const mongoose_1 = __importDefault(require("mongoose"));
+// import mongoose from "mongoose";
 const terminal_kit_1 = require("terminal-kit");
 const config_1 = require("../config/config");
+const LRMDatabase_1 = require("../db/LRMDatabase");
 // import { Books, IBook, IBookDoc } from "../models/book";
 const apiRoutes_1 = require("./routes/apiRoutes");
 class Controller {
-    // private readonly Books: Model<IBookDoc> = Books;
     constructor() {
         this.router = express_1.default.Router();
+        this.database = new LRMDatabase_1.LRMDatabase();
         this.router.use(this.assignAPIRoutes());
         this.router.use(this.sendClientApp.bind(this));
     }
     async connectDatabase() {
-        const options = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true // prevents deprecation warning
-        };
-        return mongoose_1.default.connect(config_1.config.MONGODB_URI, options);
+        // const options: mongoose.ConnectionOptions = {
+        //     useNewUrlParser: true,
+        //     useUnifiedTopology: true,  // prevents deprecation warning
+        //     useCreateIndex: true       // prevents deprecation warning
+        // };
+        // return mongoose.connect(config.MONGODB_URI, options);
+        return this.database.connectDatabase();
     }
     assignAPIRoutes() {
         const apiRouter = express_1.default.Router();

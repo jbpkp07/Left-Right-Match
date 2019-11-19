@@ -23,6 +23,7 @@ const UserSchema = new mongoose_1.Schema({
         required: true
     },
     stances: [{
+            _id: false,
             key: {
                 type: String,
                 required: true
@@ -33,6 +34,7 @@ const UserSchema = new mongoose_1.Schema({
             }
         }],
     matches: [{
+            _id: false,
             name: {
                 type: String,
                 required: true

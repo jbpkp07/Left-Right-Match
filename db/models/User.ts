@@ -36,6 +36,7 @@ const UserSchema: Schema = new Schema({
         required: true
     },
     stances: [{
+        _id: false,
         key: {
             type: String,
             required: true
@@ -46,6 +47,7 @@ const UserSchema: Schema = new Schema({
         }
     }],
     matches: [{
+        _id: false,
         name: {
             type: String,
             required: true

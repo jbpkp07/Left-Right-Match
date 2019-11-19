@@ -33,6 +33,8 @@ export interface ICandidate {
     contactInfo: IContactInfo;
 
     stances: IStance[];
+
+    __v?: number;
 }
 
 export interface ICandidateDoc extends ICandidate, Document { }
@@ -95,6 +97,7 @@ const CandidateSchema: Schema = new Schema({
         }]
     },
     stances: [{
+        _id: false,
         key: {
             type: String,
             required: true

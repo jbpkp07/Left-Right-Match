@@ -65,6 +65,7 @@ const CandidateSchema = new mongoose_1.Schema({
             }]
     },
     stances: [{
+            _id: false,
             key: {
                 type: String,
                 required: true

@@ -31,6 +31,7 @@ axios_1.default.get(quizURL)
             }
         });
         const nextIssue = {
+            _id: null,
             key,
             question,
             stances

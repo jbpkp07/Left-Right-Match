@@ -47,6 +47,7 @@ Axios.get(quizURL)
 
             const nextIssue: IIssue = {
 
+                _id: null,
                 key,
                 question,
                 stances

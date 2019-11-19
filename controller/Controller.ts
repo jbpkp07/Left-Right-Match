@@ -2,10 +2,11 @@ import Axios, { AxiosResponse } from "axios";
 import cheerio from "cheerio";
 import { default as express } from "express";
 // import mongoose, { Model } from "mongoose";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import { terminal } from "terminal-kit";
 
 import { config } from "../config/config";
+import { LRMDatabase } from "../db/LRMDatabase";
 // import { Books, IBook, IBookDoc } from "../models/book";
 import { apiRoutes } from "./routes/apiRoutes";
 
@@ -14,7 +15,7 @@ export class Controller {
 
     public router: express.Router = express.Router();
 
-    // private readonly Books: Model<IBookDoc> = Books;
+    private readonly database: LRMDatabase = new LRMDatabase();
 
     public constructor() {
 
@@ -23,16 +24,18 @@ export class Controller {
         this.router.use(this.sendClientApp.bind(this));
     }
 
-    public async connectDatabase(): Promise<typeof mongoose> {
+    public async connectDatabase(): Promise<void> {
 
-        const options: mongoose.ConnectionOptions = {
+        // const options: mongoose.ConnectionOptions = {
 
-            useNewUrlParser: true,
-            useUnifiedTopology: true,  // prevents deprecation warning
-            useCreateIndex: true       // prevents deprecation warning
-        };
+        //     useNewUrlParser: true,
+        //     useUnifiedTopology: true,  // prevents deprecation warning
+        //     useCreateIndex: true       // prevents deprecation warning
+        // };
 
-        return mongoose.connect(config.MONGODB_URI, options);
+        // return mongoose.connect(config.MONGODB_URI, options);
+
+        return this.database.connectDatabase();
     }
 
     private assignAPIRoutes(): express.Router {

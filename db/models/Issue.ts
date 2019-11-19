@@ -1,10 +1,12 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 export interface IIssue {
-
+    
+    _id: any;
     key: string;
     question: string;
     stances: string[];
+    __v?: number; 
 }
 
 export interface IIssueDoc extends IIssue, Document { }

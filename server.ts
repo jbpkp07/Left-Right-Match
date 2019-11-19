@@ -3,7 +3,7 @@ import { terminal } from "terminal-kit";
 
 import { config } from "./config/config";
 import { Controller } from "./controller/Controller";
-import { printHeader } from "./utility/printHeaderFunctions";
+// import { printHeader } from "./utility/printHeaderFunctions";
 
 const controller: Controller = new Controller();
 
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(controller.router);
 
-printHeader();
+// printHeader();
 
 controller.connectDatabase()
 

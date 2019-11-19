@@ -43,7 +43,7 @@
         },
         "no-any": false,
         "no-empty-interface": true,
-        "no-for-in": true,
+        "no-for-in": false,
         "no-import-side-effect": [true, { "ignore-module": "(\\.html|\\.css)$" }],
         "no-inferrable-types": [false, "ignore-params"],
         "no-internal-module": true,

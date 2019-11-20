@@ -1,12 +1,9 @@
 import mongoose, { Model } from "mongoose";
-import { terminal } from "terminal-kit";
 
 import { config } from "../config/config";
-// tslint:disable-next-line: ordered-imports
-import { Candidates, ICandidateDoc, ICandidate } from "./models/Candidate";
-// tslint:disable-next-line: ordered-imports
-import { Issues, IIssueDoc, IIssue } from "./models/Issue";
-// tslint:disable-next-line: ordered-imports
+import { Candidates, ICandidate, ICandidateDoc, ICandidateStances, IStance, IStancesObj } from "./models/Candidate";
+import { IIssue, IIssueDoc, Issues } from "./models/Issue";
+import { ICandidateMatch } from "./models/User";
 // import { Users, IUserDoc } from "./models/User";
 
 
@@ -20,6 +17,9 @@ export class LRMDatabase {
     private allCandidates: ICandidate[];
     private allIssues: IIssue[];
 
+    // Candidate stances converted from array to object for O(1) search complexity (performance)
+    private readonly allCandidateStances: ICandidateStances[];
+
     public constructor() {
 
         this.CandidatesModel = Candidates;
@@ -28,9 +28,11 @@ export class LRMDatabase {
 
         this.allCandidates = [];
         this.allIssues = [];
+
+        this.allCandidateStances = [];
     }
 
-    public async connectDatabase(): Promise<void> {
+    public async connectDatabase(): Promise<string> {
 
         return new Promise((resolve: Function, reject: Function): void => {
 
@@ -51,6 +53,23 @@ export class LRMDatabase {
 
                     this.allCandidates = this.convertToICandidates(candidates);
 
+                    for (const candidate of this.allCandidates) {
+
+                        const stancesObj: IStancesObj = {};
+
+                        candidate.stances.forEach((stance: IStance) => stancesObj[stance.key] = stance.stance);
+
+                        const candidateStances: ICandidateStances = {
+
+                            name: candidate.name,
+                            img: candidate.img,
+                            stancesObj,
+                            score: 0
+                        };
+                        
+                        this.allCandidateStances.push(candidateStances);
+                    }
+
                     return this.IssuesModel.find().exec();
                 })
                 .then((issues: IIssueDoc[]) => {
@@ -61,24 +80,94 @@ export class LRMDatabase {
                 })
                 .catch((err: string) => {
 
-                    terminal.red(err);
-
-                    reject();
+                    reject(err);
                 });
         });
     }
 
-    public getAllCandidates(): ICandidate[] {
+    public getAllCandidates(): ICandidate[] | null {
 
-        return this.allCandidates;
+        if (this.allCandidates.length > 0) {
+
+            return this.allCandidates;
+        }
+
+        return null;
     }
  
-    public getAllIssues(): IIssue[] {
+    public getCandidateById(_id: string): ICandidate | null {
 
-        return this.allIssues;
+        for (const candidate of this.allCandidates) {
+
+            if (candidate._id.toString() === _id) {
+
+                return candidate;
+            }
+        }
+
+        return null;
     }
 
-    // prunes the extras that come with a mongoose document, leaving the data only
+    public getAllIssues(): IIssue[] | null {
+
+        if (this.allIssues.length > 0) {
+
+            return this.allIssues;
+        }
+
+        return null;
+    }
+
+    public getCandidateMatches(userStancesObj: IStancesObj): ICandidateMatch[] | null {
+
+        this.allCandidateStances.forEach((candidateStances: ICandidateStances) => candidateStances.score = 0);
+
+        Object.entries(userStancesObj).forEach((entry: [string, string]) => {
+
+            for (const candidateStances of this.allCandidateStances) {
+
+                const userKey: string = entry[0];
+                const userStance: string = entry[1];
+
+                if (candidateStances.stancesObj[userKey] === userStance) {
+
+                    candidateStances.score++;
+                }
+            }
+        });
+
+        const matches: ICandidateMatch[] = [];
+
+        this.allCandidateStances.forEach((candidateStances: ICandidateStances) => {
+           
+            const candidateMatch: ICandidateMatch = {
+
+                name: candidateStances.name,
+                img: candidateStances.img,
+                percentageMatch: Math.floor((candidateStances.score / Object.keys(userStancesObj).length) * 100)
+            };
+
+            matches.push(candidateMatch);
+        });
+
+        matches.sort((a: ICandidateMatch, b: ICandidateMatch): number => {
+
+            return a.percentageMatch < b.percentageMatch ? 1 : -1;
+        });
+
+        if (matches.length > 0) {
+
+            return matches;
+        }
+
+        return null;
+    }
+
+
+
+
+
+
     private convertToICandidate(candidate: ICandidateDoc): ICandidate {
 
         const convertedCandidate: ICandidate = candidate.toObject() as ICandidate;

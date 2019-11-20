@@ -1,13 +1,11 @@
-import Axios, { AxiosResponse } from "axios";
-import cheerio from "cheerio";
 import { default as express } from "express";
-// import mongoose, { Model } from "mongoose";
-// import mongoose from "mongoose";
 import { terminal } from "terminal-kit";
 
 import { config } from "../config/config";
 import { LRMDatabase } from "../db/LRMDatabase";
-// import { Books, IBook, IBookDoc } from "../models/book";
+import { ICandidate, IStancesObj } from "../db/models/Candidate";
+import { IIssue } from "../db/models/Issue";
+import { ICandidateMatch } from "../db/models/User";
 import { apiRoutes } from "./routes/apiRoutes";
 
 
@@ -24,16 +22,7 @@ export class Controller {
         this.router.use(this.sendClientApp.bind(this));
     }
 
-    public async connectDatabase(): Promise<void> {
-
-        // const options: mongoose.ConnectionOptions = {
-
-        //     useNewUrlParser: true,
-        //     useUnifiedTopology: true,  // prevents deprecation warning
-        //     useCreateIndex: true       // prevents deprecation warning
-        // };
-
-        // return mongoose.connect(config.MONGODB_URI, options);
+    public async connectDatabase(): Promise<string> {
 
         return this.database.connectDatabase();
     }
@@ -41,9 +30,16 @@ export class Controller {
     private assignAPIRoutes(): express.Router {
 
         const apiRouter: express.Router = express.Router();
-        
-        apiRouter.route(apiRoutes.scrapeRoute)
-            .get(this.scrapeQuestions.bind(this));
+
+        apiRouter.route(apiRoutes.candidatesRoute)
+            .get(this.getAllCandidates.bind(this));
+
+        apiRouter.route(`${apiRoutes.candidatesRoute}/:id`)
+            .get(this.getCandidateById.bind(this));
+
+        apiRouter.route(apiRoutes.quizRoute)
+            .get(this.getAllIssues.bind(this))
+            .post(this.postQuizAnswers.bind(this));
 
         // apiRouter.route(`${apiRoutes.booksRoute}/:id`)
         //     .delete(this.deleteBook.bind(this));
@@ -59,111 +55,80 @@ export class Controller {
         response.sendFile(config.htmlAssetPath);
     }
 
-    private scrapeQuestions(_request: express.Request, response: express.Response): void {
+    private getAllCandidates(_request: express.Request, response: express.Response): void {
 
-        // Axios.get("https://www.isidewith.com/elections/2020-presidential-quiz")
-        Axios.get("https://www.isidewith.com/candidates/bernie-sanders/policies")
+        const allCandidates: ICandidate[] | null = this.database.getAllCandidates();
 
-            .then((res: AxiosResponse) => {
+        if (allCandidates !== null) {
 
-                const $: CheerioStatic = cheerio.load(res.data);
+            response.json(allCandidates);
+        }
+        else {
 
+            const err: string = "Error: No candidates found.";
 
+            terminal.red(`${err}\n\n`);
 
-                // let count: number = 0;
+            response.status(422).json(err);
+        }
+    }
 
-                // $("div.sec.sub3.subIssue").each((_i: number, element: CheerioElement) => {
+    private getCandidateById(request: express.Request, response: express.Response): void {
 
-                //     const id: string = $(element).attr("id");
-                //     const question: string = $(element).find("div.sec_header_c > h3").text();
-                    
-                //     console.log(`id:        ${id}\nquestion:  ${question}`);
+        const id: string = request.params.id;
 
-                //     const stances: string[] = [];
+        const candidate: ICandidate | null = this.database.getCandidateById(id);
 
-                //     $(element).find("span.label_text").each((_j: number, innerElement: CheerioElement) => {
+        if (candidate !== null) {
 
-                //         const stance: string = $(innerElement).text();
+            response.json(candidate);
+        }
+        else {
 
-                //         if (stances.length < 2) {
-                     
-                //             stances.push(stance);
-                //         }
-                //     });
+            const err: string = `Error: Candidate not found with _id === ${id}`;
 
-                //     for (const stance of stances) {
+            terminal.red(`${err}\n\n`);
 
-                //         console.log(`stance:    ${stance}`);
-                //     }
+            response.status(422).json(err);
+        }
+    }
 
+    private getAllIssues(_request: express.Request, response: express.Response): void {
 
+        const allIssues: IIssue[] | null = this.database.getAllIssues();
 
-                //     console.log("\n");
+        if (allIssues !== null) {
 
+            response.json(allIssues);
+        }
+        else {
 
-                //     count++;
-                // });
+            const err: string = "Error: No issues found.";
 
-                // console.log(count);
+            terminal.red(`${err}\n\n`);
 
+            response.status(422).json(err);
+        }
+    }
 
+    private postQuizAnswers(request: express.Request, response: express.Response): void {
 
+        const userStancesObj: IStancesObj = request.body;
 
+        const matches: ICandidateMatch[] | null = this.database.getCandidateMatches(userStancesObj);
 
+        if (matches !== null) {
 
+            response.json(matches);
+        }
+        else {
 
-                let count: number = 0;
+            const err: string = "Error: No matches found.";
 
-                $("div.sec_body_group.t_").each((_i: number, element: CheerioElement) => {
+            terminal.red(`${err}\n\n`);
 
-                    const id: string = $(element).attr("class").split(" ").pop() as string;
-                    const question: string = $(element).find("h5").text();
-                    let stance: string = $(element).find("span.stance_body").text().split(" ").shift() as string;
-
-                    stance = stance.replace(/[^a-z0-9]/gi, "");
-
-                    console.log(`id:        ${id}\nquestion:  ${question}\nstance:    ${stance}\n`);
-
-
-                    count++;
-                });
-
-                console.log(count);
-
-       
-
-
-                
-                response.sendStatus(200);
-            //     const articles: IArticle[] = [];
-
-            //     $(config.ultiWorldDgContainerElement).each((_i: number, element: CheerioElement) => {
-
-            //         const heading: Cheerio = $(element).find(config.ultiWorldDgHeadingElement);
-            //         const excerpt: Cheerio = $(element).find(config.ultiWorldDgExcerptElement);
-
-            //         const article: IArticle = {
-
-            //             title: heading.text().trim(),
-            //             link: heading.attr("href").trim(),
-            //             excerpt: excerpt.text().trim(),
-            //             notes: []
-            //         };
-
-            //         articles.push(article);
-            //     });
-
-            //     return this.dgNewsDatabase.filterForUnsavedArticles(articles);
-            // })
-            // .then(() => {
-
-            //     response.redirect("/");
-            })
-            .catch((error: string) => {
-
-                terminal.red(error);
-                response.status(500).send(error);
-            });
+            response.status(422).json(err);
+        }
     }
 
 
@@ -288,11 +253,11 @@ export class Controller {
     //     Axios.get(config.googleAPIURL, axiosConfig)
 
     //         .then(async (results: AxiosResponse) => {
-       
+
     //             const { items }: any = results.data;                
 
     //             for (const item of items) {
-    
+
     //                 const googleBook: IBook = {
 
     //                     _id: null,
@@ -326,7 +291,7 @@ export class Controller {
     //             return Promise.all(promises);
     //         })
     //         .then((areInDatabase: [boolean, IBookDoc][]) => {
-                
+
     //             for (let i: number = 0; i < googleBooks.length; i++) {
 
     //                 const isInDatabase: [boolean, IBookDoc] = areInDatabase[i];

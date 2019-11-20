@@ -7,6 +7,19 @@ export interface IStance {
     stance: string;
 }
 
+export interface IStancesObj {
+
+    [key: string]: string;
+}
+
+export interface ICandidateStances {
+
+    name: string;
+    img: string;
+    stancesObj: IStancesObj;
+    score: number;
+}
+
 export interface IContactInfo {
 
     websites: string[];

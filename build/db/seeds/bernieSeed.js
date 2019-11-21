@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bernieSeed = {
     _id: null,
     name: "Bernie Sanders",
-    img: "/images/bernie_blue_profile1.jpg",
-    headImg: "/images/berie-sanders-cutout.png",
-    bannerImg: "/images/bernie-banner1.png",
+    img: "/images/bernie.jpg",
+    headImg: "/images/bernieCutout.png",
+    bannerImg: "/images/bernieBanner.jpg",
     iSideLink: "https://www.isidewith.com/candidates/bernie-sanders",
     policyLink: "https://www.isidewith.com/candidates/bernie-sanders/policies",
     parties: [

@@ -1,0 +1,21 @@
+.candidate-img {
+    height: 250px;
+    width: 250px;
+}
+.card {
+    border: thin solid var(--light-blue);
+    width: 60vw;
+    /* background-image: linear-gradient(to bottom right, var(--light-red),var(--light-blue)); */
+    padding: 10px;
+   
+}
+.p-size {
+    font-size: medium;
+    margin: 5px;
+    padding: 10px;
+    line-height: 150%;
+}
+
+.ul-size {
+    font-size: x-large;
+}

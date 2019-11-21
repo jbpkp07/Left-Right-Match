@@ -1,0 +1,29 @@
+[
+  {
+    "id": "0",
+    "key": "q0",
+    "question": "Would you consider yourself a morning person?",
+    "stances": [
+      "yes",
+      "no"
+    ]
+  },
+  {
+    "id": "1",
+    "key": "q1",
+    "question": "Do you prefer the beach over the mountains?",
+    "stances": [
+      "yes",
+      "no"
+    ]
+  },
+  {
+    "id": "2",
+    "key": "q2",
+    "question": "Are Dogs abetter than cats?",
+    "stances": [
+      "yes",
+      "no"
+    ]
+  }
+]

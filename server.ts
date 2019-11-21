@@ -15,7 +15,7 @@ app.use(express.json());
 
 const sessionOptions: session.SessionOptions = {
 
-    secret: "keyboard cat",
+    secret: "35036ca3-7153-4b9a-a854-c21ceba18c5c", // random UUID
     resave: false,
     saveUninitialized: true
 };

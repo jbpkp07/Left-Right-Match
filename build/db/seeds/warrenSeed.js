@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.warrenSeed = {
     _id: null,
     name: "Elizabeth Warren",
-    img: "/images/elizabeth-warren_red_profile.png",
-    headImg: "/images/elizabethWarren-cutout_1024x1024.png",
-    bannerImg: "/images/elizabeth-warren-banner4.png",
+    img: "/images/warren.jpg",
+    headImg: "/images/warrenCutout.png",
+    bannerImg: "/images/warrenBanner.jpg",
     iSideLink: "https://www.isidewith.com/candidates/elizabeth-warren",
     policyLink: "https://www.isidewith.com/candidates/elizabeth-warren/policies",
     parties: [

@@ -1,0 +1,33 @@
+
+nav {
+  clear: both;
+  height: 100px;
+  line-height: 100%;
+  min-height: 10%;
+  vertical-align: middle;
+  font-size: 20px;
+  background-color: var(--bootstrap-primary-blue);
+}
+
+.navbar-brand {
+  /* background-image: url('./images/leftRightMatch3.png'); */
+  background-repeat: no-repeat;
+}
+
+.navbar-item {
+  margin-right: 10px;
+}
+
+.brand-font {
+  font-size: 30px;
+}
+
+.navbar-item, .navbar-brand {
+  color: white;
+}
+
+.nav-img {
+  width:120px;
+  height: 140px;
+  
+}

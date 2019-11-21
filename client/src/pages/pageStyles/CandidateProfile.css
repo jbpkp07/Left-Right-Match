@@ -1,0 +1,27 @@
+.banner {
+    margin: 0 0 100px;
+    object-fit: contain;
+    width: 100%;
+    max-height: 300px;
+    font-size: 70px;
+    border: thin solid var(--light-blue);
+    text-align: center;
+    vertical-align: middle;
+    text-shadow: 3px 2px var(--light-red);
+}
+
+.banner-img {
+    height: 50vh;
+    /* max-height: 300px;  */
+    width: 100%;
+
+
+}
+
+.hello {
+    border-radius: 25px;
+    border: thin solid var(--light-blue);    
+    background-image: linear-gradient(to top left, var(--medium-blue),var(--light-blue));
+    padding: 10px;
+    background-color: var(--bright-red);
+}

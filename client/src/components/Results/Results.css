@@ -1,0 +1,26 @@
+.rTitle {
+    /* background-image: linear-gradient(to bottom right, var(--lighter-gray-transparent),var(--blue-grey-slight)); */
+    /* background-image: linear-gradient(to bottom right, var(--lighter-gray),var(--blue-grey-slight)); */
+    padding: 30px;
+    font-size: 3em;
+}
+ 
+.rImg {
+    width: 200px;
+    height: 200px;
+    /* margin: 25px; */
+}
+
+.rItems {
+    vertical-align: middle;
+    padding: 60px 0 0;
+    font-size: 2em;
+    /* border: thin solid limegreen; */
+
+}
+
+.rRow {
+    line-height: 20vh;
+    border: thin solid var(--lighter-gray-transparent);
+
+} 

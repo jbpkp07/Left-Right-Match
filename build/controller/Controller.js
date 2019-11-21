@@ -106,17 +106,17 @@ class Controller {
             response.status(422).json("Error: User profile not found.");
         });
     }
-    startSession(request, response) {
-        const sessionState = {
-            isLoggedIn: request.session.isLoggedIn || false
-        };
-        response.json();
+    startSession(_request, _response) {
+        // const sessionState = {
+        //     isLoggedIn: request.session.isLoggedIn || false
+        // }
+        // response.json();
     }
-    login(request, response) {
+    login(_request, _response) {
     }
-    signup(request, response) {
+    signup(_request, _response) {
     }
-    logout(request, response) {
+    logout(_request, _response) {
     }
 }
 exports.Controller = Controller;

@@ -14,7 +14,7 @@ const app = express_1.default();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 const sessionOptions = {
-    secret: "keyboard cat",
+    secret: "35036ca3-7153-4b9a-a854-c21ceba18c5c",
     resave: false,
     saveUninitialized: true
 };

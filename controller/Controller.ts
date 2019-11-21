@@ -169,25 +169,25 @@ export class Controller {
             });
     }
 
-    private startSession(request: express.Request, response: express.Response): void {
+    private startSession(_request: express.Request, _response: express.Response): void {
 
-        const sessionState = {
+        // const sessionState = {
 
-            isLoggedIn: request.session.isLoggedIn || false
-        }
+        //     isLoggedIn: request.session.isLoggedIn || false
+        // }
 
-        response.json();
+        // response.json();
     }
 
-    private login(request: express.Request, response: express.Response): void {
-
-    }
-
-    private signup(request: express.Request, response: express.Response): void {
+    private login(_request: express.Request, _response: express.Response): void {
 
     }
 
-    private logout(request: express.Request, response: express.Response): void {
+    private signup(_request: express.Request, _response: express.Response): void {
+
+    }
+
+    private logout(_request: express.Request, _response: express.Response): void {
 
     }
 }

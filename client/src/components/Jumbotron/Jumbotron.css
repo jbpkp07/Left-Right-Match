@@ -1,0 +1,22 @@
+.jumbotron {
+  clear: both;
+  width: 100%;
+  font-size: xx-large;
+  font-weight: bolder;
+  margin: 0 0 75px;
+  background-color: white;
+  color: var(--dark-gray);
+  position: relative;
+  background-image: linear-gradient(to bottom right, var(--lighter-gray-transparent),var(--blue-grey-slight));
+}
+
+.logo {
+    color: var(--dark-gray);
+    object-fit: scale-down;
+    /* object-fit: cover; */
+  }
+
+  .quizHead {
+    text-shadow: 2px 1px var(--bootstrap-primary-blue);
+
+  }

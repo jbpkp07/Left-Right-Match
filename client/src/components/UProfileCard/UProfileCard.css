@@ -1,0 +1,26 @@
+
+.candidate-img {
+    height: 250px;
+    width: 250px;
+    border-radius: 25px;
+}
+.card {
+    width: 60vw;
+    /* background-image: linear-gradient(to bottom right, var(--light-red),var(--light-blue)); */
+    padding: 10px;
+   
+}
+.uCard {
+    /* border-radius: 25px; */
+    border: medium solid var(--bootstrap-primary-dark-blue);
+}
+.p-size {
+    font-size: medium;
+    margin: 5px;
+    padding: 10px;
+    line-height: 150%;
+}
+
+.ul-size {
+    font-size: x-large;
+}

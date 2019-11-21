@@ -1,0 +1,13 @@
+.qContainer {
+    background-image: linear-gradient(to bottom right, var(--lighter-gray-transparent),var(--blue-grey-slight));
+    border: medium solid var(--bootstrap-primary-blue);
+}
+.resultsStyles {
+    background-color: white; 
+    max-width: 960px;
+    border: medium solid var(--bootstrap-dark-blue);
+}
+
+form {
+    margin: 0 0 100px 0;
+}

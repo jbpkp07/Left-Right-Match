@@ -1,0 +1,39 @@
+.candidatesBanner {
+   
+    /* background-image: url("../../images/primaries_DEM_JULY.14.jpg"); */
+    /* width: fit-content; */
+    object-fit: contain;
+    max-height: 5%;
+    font-size: 70px;
+    border: thin solid var(--light-blue);
+    text-align: center;
+    vertical-align: middle;
+    text-shadow: 3px 2px var(--bootstrap-red);
+}
+
+.banner-image {
+    object-fit: contain;
+    height: 400px;
+    
+} 
+
+.thumbnail-text {
+    font-size: x-large;
+}
+
+.list-group-item {
+    /* border: thin solid var(--light-red); */
+    padding: 30px;
+}
+.candidates li {
+    text-align: left;
+}
+
+.hello {
+    border-radius: 25px;
+    border: thin solid;
+    /* background-image: linear-gradient(to bottom right, var(--lighter-gray-transparent),var(--blue-grey-slight)); */
+    background-image: linear-gradient(to bottom right, var(--light-red),var(--light-blue));
+    padding: 10px;
+    background-color: var(--bootstrap-red);
+}

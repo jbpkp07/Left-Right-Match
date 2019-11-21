@@ -5,9 +5,9 @@ export const bidenSeed: ICandidate = {
 
     _id: null,
     name: "Joe Biden",
-    img: "/images/joe-biden_blue_profile.png",
-    headImg: "/images/joe-biden-cutout.png",
-    bannerImg: "/images/joe-biden-banner.png",
+    img: "/images/biden.jpg",
+    headImg: "/images/bidenCutout.png",
+    bannerImg: "/images/bidenBanner.jpg",
     iSideLink: "https://www.isidewith.com/candidates/joe-biden-2",
     policyLink: "https://www.isidewith.com/candidates/joe-biden-2/policies",
     parties: [

@@ -27,10 +27,16 @@ class Controller {
         apiRouter.route(apiRoutes_1.apiRoutes.quizRoute)
             .get(this.getAllIssues.bind(this))
             .post(this.postQuizAnswers.bind(this));
-        // apiRouter.route(`${apiRoutes.booksRoute}/:id`)
-        //     .delete(this.deleteBook.bind(this));
-        // apiRouter.route(apiRoutes.searchRoute)
-        //     .get(this.searchGoogleBooks.bind(this));
+        apiRouter.route(`${apiRoutes_1.apiRoutes.userRoute}/:id`)
+            .get(this.getUserProfile.bind(this));
+        apiRouter.route(apiRoutes_1.apiRoutes.sessionRoutes.startRoute)
+            .get(this.startSession.bind(this));
+        apiRouter.route(apiRoutes_1.apiRoutes.sessionRoutes.loginRoute)
+            .post(this.login.bind(this));
+        apiRouter.route(apiRoutes_1.apiRoutes.sessionRoutes.signupRoute)
+            .post(this.signup.bind(this));
+        apiRouter.route(apiRoutes_1.apiRoutes.sessionRoutes.logoutRoute)
+            .get(this.logout.bind(this));
         return apiRouter;
     }
     sendClientApp(_request, response) {
@@ -81,6 +87,36 @@ class Controller {
             terminal_kit_1.terminal.red(`${err}\n\n`);
             response.status(422).json(err);
         }
+    }
+    getUserProfile(request, response) {
+        const id = request.params.id;
+        this.database.getUserById(id)
+            .then((userProfile) => {
+            if (userProfile !== null) {
+                response.json(userProfile);
+            }
+            else {
+                const err = "Error: User profile not found.";
+                terminal_kit_1.terminal.red(`${err}\n\n`);
+                response.status(422).json(err);
+            }
+        })
+            .catch((err) => {
+            terminal_kit_1.terminal.red(`${err}\n\n`);
+            response.status(422).json("Error: User profile not found.");
+        });
+    }
+    startSession(request, response) {
+        const sessionState = {
+            isLoggedIn: request.session.isLoggedIn || false
+        };
+        response.json();
+    }
+    login(request, response) {
+    }
+    signup(request, response) {
+    }
+    logout(request, response) {
     }
 }
 exports.Controller = Controller;

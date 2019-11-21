@@ -43,6 +43,14 @@ const UserSchema = new mongoose_1.Schema({
                 type: String,
                 required: true
             },
+            headImg: {
+                type: String,
+                required: true
+            },
+            bannerImg: {
+                type: String,
+                required: true
+            },
             percentageMatch: {
                 type: Number,
                 required: true

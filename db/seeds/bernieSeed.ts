@@ -5,8 +5,9 @@ export const bernieSeed: ICandidate = {
 
     _id: null,
     name: "Bernie Sanders",
-    img: "../images/Bernie-Sanders-circle-16.png",
-    bannerImg: "../images/bernie-banner-img1.png",
+    img: "/images/bernie_blue_profile1.jpg",
+    headImg: "/images/berie-sanders-cutout.png",
+    bannerImg: "/images/bernie-banner1.png",
     iSideLink: "https://www.isidewith.com/candidates/bernie-sanders",
     policyLink: "https://www.isidewith.com/candidates/bernie-sanders/policies",
     parties: [

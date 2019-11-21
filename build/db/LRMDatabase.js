@@ -7,15 +7,16 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = require("../config/config");
 const Candidate_1 = require("./models/Candidate");
 const Issue_1 = require("./models/Issue");
-// import { Users, IUserDoc } from "./models/User";
+const User_1 = require("./models/User");
 class LRMDatabase {
     constructor() {
         this.CandidatesModel = Candidate_1.Candidates;
         this.IssuesModel = Issue_1.Issues;
-        // this.UsersModel = Users;
+        this.UsersModel = User_1.Users;
         this.allCandidates = [];
         this.allIssues = [];
         this.allCandidateStances = [];
+        this.allQuestionsObj = {};
     }
     async connectDatabase() {
         return new Promise((resolve, reject) => {
@@ -36,6 +37,8 @@ class LRMDatabase {
                     const candidateStances = {
                         name: candidate.name,
                         img: candidate.img,
+                        headImg: candidate.headImg,
+                        bannerImg: candidate.bannerImg,
                         stancesObj,
                         score: 0
                     };
@@ -45,6 +48,9 @@ class LRMDatabase {
             })
                 .then((issues) => {
                 this.allIssues = this.convertToIIssues(issues);
+                for (const issue of this.allIssues) {
+                    this.allQuestionsObj[issue.key] = issue.question;
+                }
                 resolve();
             })
                 .catch((err) => {
@@ -88,6 +94,8 @@ class LRMDatabase {
             const candidateMatch = {
                 name: candidateStances.name,
                 img: candidateStances.img,
+                headImg: candidateStances.headImg,
+                bannerImg: candidateStances.bannerImg,
                 percentageMatch: Math.floor((candidateStances.score / Object.keys(userStancesObj).length) * 100)
             };
             matches.push(candidateMatch);
@@ -99,6 +107,26 @@ class LRMDatabase {
             return matches;
         }
         return null;
+    }
+    async getUserById(_id) {
+        return new Promise((resolve, reject) => {
+            this.UsersModel.findOne({ _id }).exec()
+                .then((userDoc) => {
+                if (userDoc !== null) {
+                    const user = this.convertToIUser(userDoc);
+                    user.stances.forEach((stance) => {
+                        stance.question = this.allQuestionsObj[stance.key];
+                    });
+                    resolve(user);
+                }
+                else {
+                    resolve(null);
+                }
+            })
+                .catch((err) => {
+                reject(err);
+            });
+        });
     }
     convertToICandidate(candidate) {
         const convertedCandidate = candidate.toObject();
@@ -124,6 +152,12 @@ class LRMDatabase {
             convertedIssues.push(this.convertToIIssue(issue));
         }
         return convertedIssues;
+    }
+    convertToIUser(user) {
+        const convertedUser = user.toObject();
+        delete convertedUser.password; // Don't send password hash back to user (security)
+        delete convertedUser.__v;
+        return convertedUser;
     }
 }
 exports.LRMDatabase = LRMDatabase;

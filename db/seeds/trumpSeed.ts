@@ -5,8 +5,9 @@ export const trumpSeed: ICandidate = {
 
     _id: null,
     name: "Donald Trump",
-    img: "../images/trump-flag-profile.jpg",
-    bannerImg: "../images/trump-banner-img1.png",
+    img: "/images/trump-profile.png",
+    headImg: "/images/trump-cutout.png",
+    bannerImg: "/images/trump-banner1.png",
     iSideLink: "https://www.isidewith.com/candidates/donald-trump",
     policyLink: "https://www.isidewith.com/candidates/donald-trump/policies",
     parties: [

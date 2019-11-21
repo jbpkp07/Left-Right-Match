@@ -29,6 +29,8 @@ function createCandidateMatch(candidateSeed) {
     const candidateMatch = {
         name: candidateSeed.name,
         img: candidateSeed.img,
+        headImg: candidateSeed.headImg,
+        bannerImg: candidateSeed.bannerImg,
         percentageMatch: Math.floor((candidateScore / userSeed_1.userSeed.stances.length) * 100)
     };
     return candidateMatch;

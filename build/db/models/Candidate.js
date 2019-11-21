@@ -18,6 +18,10 @@ const CandidateSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    headImg: {
+        type: String,
+        required: true
+    },
     bannerImg: {
         type: String,
         required: true

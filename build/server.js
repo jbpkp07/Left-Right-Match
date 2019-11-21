@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const express_session_1 = __importDefault(require("express-session"));
 const terminal_kit_1 = require("terminal-kit");
 const config_1 = require("./config/config");
 const Controller_1 = require("./controller/Controller");
@@ -12,6 +13,12 @@ const controller = new Controller_1.Controller();
 const app = express_1.default();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
+const sessionOptions = {
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true
+};
+app.use(express_session_1.default(sessionOptions));
 if (process.env.NODE_ENV === "production") {
     app.use(express_1.default.static(config_1.config.publicAssetsPath));
 }

@@ -2,6 +2,7 @@ import { IUser } from "../../db/models/User";
 
 export const userSeed: IUser = {
 
+    _id: null,
     name: "Test User",
     email: "test@email.com",
     password: "test123",

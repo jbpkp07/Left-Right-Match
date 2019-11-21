@@ -16,6 +16,8 @@ export interface ICandidateStances {
 
     name: string;
     img: string;
+    headImg: string;
+    bannerImg: string;
     stancesObj: IStancesObj;
     score: number;
 }
@@ -34,6 +36,7 @@ export interface ICandidate {
 
     name: string;
     img: string;
+    headImg: string;
     bannerImg: string;
     iSideLink: string;
     policyLink: string;
@@ -60,6 +63,10 @@ const CandidateSchema: Schema = new Schema({
         unique: true  // enforcing unique candidate name
     },
     img: {
+        type: String,
+        required: true
+    },
+    headImg: {
         type: String,
         required: true
     },

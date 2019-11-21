@@ -34,6 +34,8 @@ function createCandidateMatch(candidateSeed: ICandidate): ICandidateMatch {
 
         name: candidateSeed.name,
         img: candidateSeed.img,
+        headImg: candidateSeed.headImg,
+        bannerImg: candidateSeed.bannerImg,
         percentageMatch: Math.floor((candidateScore / userSeed.stances.length) * 100)
     };
 

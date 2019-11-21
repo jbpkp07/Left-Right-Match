@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userSeed = {
+    _id: null,
     name: "Test User",
     email: "test@email.com",
     password: "test123",

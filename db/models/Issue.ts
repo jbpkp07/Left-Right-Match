@@ -1,5 +1,10 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
+export interface IQuestionsObj {
+
+    [key: string]: string;
+}
+
 export interface IIssue {
     
     _id: any;

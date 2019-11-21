@@ -5,7 +5,7 @@ import { config } from "../config/config";
 import { LRMDatabase } from "../db/LRMDatabase";
 import { ICandidate, IStancesObj } from "../db/models/Candidate";
 import { IIssue } from "../db/models/Issue";
-import { ICandidateMatch } from "../db/models/User";
+import { ICandidateMatch, IUser } from "../db/models/User";
 import { apiRoutes } from "./routes/apiRoutes";
 
 
@@ -41,11 +41,20 @@ export class Controller {
             .get(this.getAllIssues.bind(this))
             .post(this.postQuizAnswers.bind(this));
 
-        // apiRouter.route(`${apiRoutes.booksRoute}/:id`)
-        //     .delete(this.deleteBook.bind(this));
+        apiRouter.route(`${apiRoutes.userRoute}/:id`)
+            .get(this.getUserProfile.bind(this));
 
-        // apiRouter.route(apiRoutes.searchRoute)
-        //     .get(this.searchGoogleBooks.bind(this));
+        apiRouter.route(apiRoutes.sessionRoutes.startRoute)
+            .get(this.startSession.bind(this));
+
+        apiRouter.route(apiRoutes.sessionRoutes.loginRoute)
+            .post(this.login.bind(this));
+
+        apiRouter.route(apiRoutes.sessionRoutes.signupRoute)
+            .post(this.signup.bind(this));
+
+        apiRouter.route(apiRoutes.sessionRoutes.logoutRoute)
+            .get(this.logout.bind(this));
 
         return apiRouter;
     }
@@ -131,216 +140,54 @@ export class Controller {
         }
     }
 
+    private getUserProfile(request: express.Request, response: express.Response): void {
 
-    // private async isBookInDatabase(book: IBook): Promise<[boolean, IBookDoc]> {
+        const id: string = request.params.id;
 
-    //     return new Promise((resolve: Function, reject: Function): void => {
+        this.database.getUserById(id)
 
-    //         this.Books.findOne({ googleId: book.googleId }).exec()
+            .then((userProfile: IUser | null) => {
 
-    //             .then((result: IBookDoc | null) => {
+                if (userProfile !== null) {
 
-    //                 if (result !== null) {
+                    response.json(userProfile);
+                }
+                else {
 
-    //                     resolve([true, result]);  // is in database
-    //                 }
-    //                 else {
+                    const err: string = "Error: User profile not found.";
 
-    //                     resolve([false, result]); // NOT in database
-    //                 }
+                    terminal.red(`${err}\n\n`);
 
-    //             })
-    //             .catch((err: string) => {
+                    response.status(422).json(err);
+                }
+            })
+            .catch((err: string) => {
 
-    //                 reject(err);
-    //             });
-    //     });
-    // }
+                terminal.red(`${err}\n\n`);
 
-    // private getAllSavedBooks(_request: express.Request, response: express.Response): void {
+                response.status(422).json("Error: User profile not found.");
+            });
+    }
 
-    //     this.Books.find().exec()
+    private startSession(request: express.Request, response: express.Response): void {
 
-    //         .then((bookDocs: IBookDoc[]) => {
+        const sessionState = {
 
-    //             const books: IBook[] = this.convertToIBooks(bookDocs);
+            isLoggedIn: request.session.isLoggedIn || false
+        }
 
-    //             response.json(books);
-    //         })
-    //         .catch((err: string) => {
+        response.json();
+    }
 
-    //             terminal.red(err);
+    private login(request: express.Request, response: express.Response): void {
 
-    //             response.status(422).json(err);
-    //         });
-    // }
+    }
 
-    // private saveBook(request: express.Request, response: express.Response): void {
+    private signup(request: express.Request, response: express.Response): void {
 
-    //     const newBook: IBook = request.body;
+    }
 
-    //     // remove these properties before saving to database
-    //     delete newBook._id;
-    //     delete newBook.isSaved;
+    private logout(request: express.Request, response: express.Response): void {
 
-    //     this.isBookInDatabase(newBook)
-
-    //         .then(async (isInDatabase: [boolean, IBookDoc]) => {
-
-    //             if (!isInDatabase[0]) {
-
-    //                 return this.Books.create(newBook); // NOT in database (can continue with saving)
-    //             }
-
-    //             return Promise.reject("Book already saved.");         // is in database (do not continue saving a duplicate)
-    //         })
-    //         .then((result: IBookDoc) => {
-
-    //             const savedBook: IBook = this.convertToIBook(result);
-
-    //             response.json(savedBook);
-    //         })
-    //         .catch((err: string) => {
-
-    //             terminal.red(err);
-
-    //             response.status(422).json(err);
-    //         });
-    // }
-
-    // private deleteBook(request: express.Request, response: express.Response): void {
-
-    //     const bookId: string = request.params.id;
-
-    //     this.Books.findByIdAndDelete(bookId).exec()
-
-    //         .then(async (result: IBookDoc | null) => {
-
-    //             if (result === null) {
-
-    //                 return Promise.reject("Unable to delete book.");
-    //             }
-
-    //             return Promise.resolve(result);
-    //         })
-    //         .then((deletedBookDoc: IBookDoc) => {
-
-    //             const deletedBook: IBook = this.convertToIBook(deletedBookDoc);
-
-    //             deletedBook.isSaved = false;
-
-    //             response.json(deletedBook);
-    //         })
-    //         .catch((err: string) => {
-
-    //             terminal.red(err);
-
-    //             response.status(422).json(err);
-    //         });
-    // }
-
-    // private searchGoogleBooks(request: express.Request, response: express.Response): void {
-
-    //     const googleBooks: IBook[] = [];
-
-    //     const promises: Promise<[boolean, IBookDoc]>[] = [];
-
-    //     const axiosConfig: AxiosRequestConfig = {
-
-    //         params: request.query
-    //     };
-
-    //     Axios.get(config.googleAPIURL, axiosConfig)
-
-    //         .then(async (results: AxiosResponse) => {
-
-    //             const { items }: any = results.data;                
-
-    //             for (const item of items) {
-
-    //                 const googleBook: IBook = {
-
-    //                     _id: null,
-    //                     googleId: item.id || null,
-    //                     authors: item.volumeInfo.authors || [],
-    //                     description: item.volumeInfo.description || null,
-    //                     image: "No Image",
-    //                     link: item.volumeInfo.infoLink || null,
-    //                     title: item.volumeInfo.title || null,
-    //                     isSaved: false
-    //                 };
-
-    //                 if (item.volumeInfo.imageLinks !== undefined) {  // Google Books API sometimes does not the 'imageLinks' property
-
-    //                     googleBook.image = item.volumeInfo.imageLinks.thumbnail || null;  
-    //                 }
-
-    //                 if (googleBooks.every((book: IBook) => book.googleId !== googleBook.googleId)) {   // prevents duplicate googleId search results
-
-    //                     googleBooks.push(googleBook);
-    //                 }
-    //             }
-
-    //             for (const book of googleBooks) {
-
-    //                 const promise: Promise<[boolean, IBookDoc]> = this.isBookInDatabase(book);
-
-    //                 promises.push(promise);
-    //             }
-
-    //             return Promise.all(promises);
-    //         })
-    //         .then((areInDatabase: [boolean, IBookDoc][]) => {
-
-    //             for (let i: number = 0; i < googleBooks.length; i++) {
-
-    //                 const isInDatabase: [boolean, IBookDoc] = areInDatabase[i];
-
-    //                 if (isInDatabase[0]) {
-
-    //                     googleBooks[i]._id = isInDatabase[1]._id;
-
-    //                     googleBooks[i].isSaved = true;
-    //                 }
-    //             }
-
-    //             response.json(googleBooks);
-    //         })
-    //         .catch((err: string) => {
-
-    //             terminal.red(err);
-
-    //             response.status(422).json(err);
-    //         });
-    // }
-
-    // // prunes the extras that come with a mongoose document, leaving the data only
-    // private convertToIBook(book: IBookDoc): IBook {
-
-    //     const convertedBook: IBook = {
-
-    //         _id: book._id,
-    //         googleId: book.googleId,
-    //         authors: book.authors,
-    //         description: book.description,
-    //         image: book.image,
-    //         link: book.link,
-    //         title: book.title,
-    //         isSaved: true
-    //     };
-
-    //     return convertedBook;
-    // }
-
-    // private convertToIBooks(books: IBookDoc[]): IBook[] {
-
-    //     const convertedBooks: IBook[] = [];
-
-    //     for (const book of books) {
-
-    //         convertedBooks.push(this.convertToIBook(book));
-    //     }
-
-    //     return convertedBooks;
-    // }
+    }
 }

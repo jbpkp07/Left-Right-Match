@@ -1,4 +1,5 @@
 import { default as express } from "express";
+import session from "express-session";
 import { terminal } from "terminal-kit";
 
 import { config } from "./config/config";
@@ -11,6 +12,15 @@ const app: express.Application = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+const sessionOptions: session.SessionOptions = {
+
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true
+};
+
+app.use(session(sessionOptions));
 
 if (process.env.NODE_ENV === "production") {
 

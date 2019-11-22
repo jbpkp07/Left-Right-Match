@@ -2,17 +2,23 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 
 import { IStance } from "./Candidate";
 
-export interface ILogin {
+export interface ILoginCreds {
 
     email: string;
     password: string;
 }
 
-export interface ISignup {
+export interface ISignupInfo {
 
     name: string;
     email: string;
     password: string;
+}
+
+export interface ISessionState {
+
+    isLoggedIn: boolean;
+    userId: string;
 }
 
 export interface ICandidateMatch {

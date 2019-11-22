@@ -15,7 +15,7 @@ app.use(express.json());
 
 const sessionOptions: session.SessionOptions = {
 
-    secret: "35036ca3-7153-4b9a-a854-c21ceba18c5c", // random UUID
+    secret: "35036ca3-7153-4b9a-a854-c21ceba18c5c", // random UUID for secret
     resave: false,
     saveUninitialized: true
 };

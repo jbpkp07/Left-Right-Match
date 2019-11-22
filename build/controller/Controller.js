@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const express_1 = __importDefault(require("express"));
 const terminal_kit_1 = require("terminal-kit");
 const config_1 = require("../config/config");
@@ -80,6 +81,21 @@ class Controller {
         const userStancesObj = request.body;
         const matches = this.database.getCandidateMatches(userStancesObj);
         if (matches !== null) {
+            if (request.session !== undefined) {
+                const isLoggedIn = request.session.isLoggedIn;
+                const userId = request.session.userId;
+                if (isLoggedIn && userId !== "") {
+                    this.database.updateUserQuizResults(userId, userStancesObj, matches)
+                        .then(() => { })
+                        .catch((err) => {
+                        terminal_kit_1.terminal.red(`${err}\n\n`);
+                    });
+                }
+            }
+            else {
+                const err = "Error: Express sessions not running correctly.";
+                terminal_kit_1.terminal.red(`${err}\n\n`);
+            }
             response.json(matches);
         }
         else {
@@ -92,31 +108,165 @@ class Controller {
         const id = request.params.id;
         this.database.getUserById(id)
             .then((userProfile) => {
-            if (userProfile !== null) {
+            let isLoggedIn = false;
+            let userId = "";
+            if (request.session !== undefined) {
+                isLoggedIn = request.session.isLoggedIn;
+                userId = request.session.userId;
+            }
+            if (userProfile !== null && isLoggedIn && userId === id) {
                 response.json(userProfile);
             }
             else {
-                const err = "Error: User profile not found.";
+                const err = "Error: Forbidden access to user profile.";
+                terminal_kit_1.terminal.red(`${err}\n\n`);
+                response.status(403).json(err);
+            }
+        })
+            .catch((err) => {
+            terminal_kit_1.terminal.red(`${err}\n\n`);
+            response.status(500).json(err);
+        });
+    }
+    startSession(request, response) {
+        if (request.session !== undefined) {
+            const sessionState = {
+                isLoggedIn: request.session.isLoggedIn || false,
+                userId: request.session.userId || ""
+            };
+            response.json(sessionState);
+        }
+        else {
+            const err = "Error: Express sessions not running correctly.";
+            terminal_kit_1.terminal.red(`${err}\n\n`);
+            response.status(500).json(err);
+        }
+    }
+    login(request, response) {
+        const creds = {
+            email: request.body.email,
+            password: request.body.password
+        };
+        this.database.getUserByEmail(creds.email)
+            .then((userProfile) => {
+            if (userProfile !== null) {
+                bcrypt_1.default.compare(creds.password, userProfile.password, (_err, same) => {
+                    if (request.session !== undefined) {
+                        if (same) {
+                            request.session.isLoggedIn = true;
+                            request.session.userId = userProfile._id;
+                            const sessionState = {
+                                isLoggedIn: request.session.isLoggedIn,
+                                userId: request.session.userId
+                            };
+                            response.json(sessionState);
+                        }
+                        else {
+                            request.session.isLoggedIn = false;
+                            request.session.userId = "";
+                            const sessionState = {
+                                isLoggedIn: request.session.isLoggedIn,
+                                userId: request.session.userId
+                            };
+                            const err = "Error: Password does not match user email.";
+                            terminal_kit_1.terminal.red(`${err}\n\n`);
+                            response.status(401).json(sessionState);
+                        }
+                    }
+                    else {
+                        const err = "Error: Express sessions not running correctly.";
+                        terminal_kit_1.terminal.red(`${err}\n\n`);
+                        response.status(500).json(err);
+                    }
+                });
+            }
+            else {
+                const err = `Error: No account found with submitted email:  ${creds.email}`;
                 terminal_kit_1.terminal.red(`${err}\n\n`);
                 response.status(422).json(err);
             }
         })
             .catch((err) => {
             terminal_kit_1.terminal.red(`${err}\n\n`);
-            response.status(422).json("Error: User profile not found.");
+            response.status(500).json(err);
         });
     }
-    startSession(_request, _response) {
-        // const sessionState = {
-        //     isLoggedIn: request.session.isLoggedIn || false
-        // }
-        // response.json();
+    signup(request, response) {
+        const info = {
+            name: request.body.name,
+            email: request.body.email,
+            password: request.body.password
+        };
+        this.database.getUserByEmail(info.email)
+            .then((userProfile) => {
+            if (userProfile === null) {
+                bcrypt_1.default.hash(info.password, bcrypt_1.default.genSaltSync(10), (_err, encrypted) => {
+                    const newUser = {
+                        _id: null,
+                        name: info.name,
+                        email: info.email,
+                        password: encrypted,
+                        stances: [],
+                        matches: []
+                    };
+                    this.database.createNewUser(newUser)
+                        .then((user) => {
+                        if (request.session !== undefined) {
+                            request.session.isLoggedIn = true;
+                            request.session.userId = user._id;
+                            const sessionState = {
+                                isLoggedIn: request.session.isLoggedIn,
+                                userId: request.session.userId
+                            };
+                            response.json(sessionState);
+                        }
+                        else {
+                            const err = "Error: Express sessions not running correctly.";
+                            terminal_kit_1.terminal.red(`${err}\n\n`);
+                            response.status(500).json(err);
+                        }
+                    })
+                        .catch((err) => {
+                        terminal_kit_1.terminal.red(`${err}\n\n`);
+                        response.status(500).json(err);
+                    });
+                });
+            }
+            else {
+                const err = "Error: Email account already exists in database.";
+                terminal_kit_1.terminal.red(`${err}\n\n`);
+                if (request.session !== undefined) {
+                    request.session.isLoggedIn = false;
+                    request.session.userId = "";
+                    const sessionState = {
+                        isLoggedIn: request.session.isLoggedIn,
+                        userId: request.session.userId
+                    };
+                    response.status(422).json(sessionState);
+                }
+                else {
+                    const error = "Error: Express sessions not running correctly.";
+                    terminal_kit_1.terminal.red(`${error}\n\n`);
+                    response.status(500).json(error);
+                }
+            }
+        })
+            .catch((err) => {
+            terminal_kit_1.terminal.red(`${err}\n\n`);
+            response.status(500).json(err);
+        });
     }
-    login(_request, _response) {
-    }
-    signup(_request, _response) {
-    }
-    logout(_request, _response) {
+    logout(request, response) {
+        if (request.session !== undefined) {
+            request.session.destroy(() => {
+                response.json({ success: true });
+            });
+        }
+        else {
+            const err = "Error: Client trying to logout but does not already have a session.";
+            terminal_kit_1.terminal.red(`${err}\n\n`);
+            response.status(422).json(err);
+        }
     }
 }
 exports.Controller = Controller;

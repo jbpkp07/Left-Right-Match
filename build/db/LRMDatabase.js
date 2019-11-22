@@ -108,6 +108,18 @@ class LRMDatabase {
         }
         return null;
     }
+    async createNewUser(newUser) {
+        return new Promise((resolve, reject) => {
+            this.UsersModel.create(newUser)
+                .then((userDoc) => {
+                const user = this.convertToIUser(userDoc);
+                resolve(user);
+            })
+                .catch((err) => {
+                reject(err);
+            });
+        });
+    }
     async getUserById(_id) {
         return new Promise((resolve, reject) => {
             this.UsersModel.findOne({ _id }).exec()
@@ -122,6 +134,51 @@ class LRMDatabase {
                 else {
                     resolve(null);
                 }
+            })
+                .catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    async getUserByEmail(email) {
+        return new Promise((resolve, reject) => {
+            this.UsersModel.findOne({ email }).exec()
+                .then((userDoc) => {
+                if (userDoc !== null) {
+                    const user = this.convertToIUser(userDoc);
+                    user.stances.forEach((stance) => {
+                        stance.question = this.allQuestionsObj[stance.key];
+                    });
+                    resolve(user);
+                }
+                else {
+                    resolve(null);
+                }
+            })
+                .catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    async updateUserQuizResults(_id, userStancesObj, matches) {
+        return new Promise((resolve, reject) => {
+            const stances = [];
+            Object.entries(userStancesObj).forEach((entry) => {
+                const stance = {
+                    key: entry[0],
+                    stance: entry[1]
+                };
+                stances.push(stance);
+            });
+            const options = [
+                { _id },
+                { stances, matches },
+                { useFindAndModify: false } // prevents deprecation warning
+            ];
+            // @ts-ignore  (Typescript doesn't like the spread operator "..." for function arguments)
+            this.UsersModel.findOneAndUpdate(...options).exec()
+                .then(() => {
+                resolve();
             })
                 .catch((err) => {
                 reject(err);

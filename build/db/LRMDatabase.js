@@ -126,6 +126,7 @@ class LRMDatabase {
                 .then((userDoc) => {
                 if (userDoc !== null) {
                     const user = this.convertToIUser(userDoc);
+                    delete user.password; // Don't send password hash back to user (security)
                     user.stances.forEach((stance) => {
                         stance.question = this.allQuestionsObj[stance.key];
                     });
@@ -212,7 +213,6 @@ class LRMDatabase {
     }
     convertToIUser(user) {
         const convertedUser = user.toObject();
-        delete convertedUser.password; // Don't send password hash back to user (security)
         delete convertedUser.__v;
         return convertedUser;
     }

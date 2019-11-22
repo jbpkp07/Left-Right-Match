@@ -8,7 +8,6 @@ import Nav from "../components/Nav/Nav"
 class FrontPage extends Component {
 
     handleThisClick = () => {
-        console.log('handleClick hit')
         this.props.history.push("/quiz")
     }
 
@@ -24,7 +23,6 @@ class FrontPage extends Component {
                                     image={logoImg}
                                     name={logoImg.name}
                                 >
-                                    {/* Need to position text closer to logo */}
                                     <h1>Which Political Candidate Are You Most Like?</h1>
                                 </Image>
                             </div>

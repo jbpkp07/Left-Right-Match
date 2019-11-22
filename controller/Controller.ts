@@ -237,7 +237,7 @@ export class Controller {
             .then((userProfile: IUser | null) => {
 
                 if (userProfile !== null) {
-
+       
                     bcrypt.compare(creds.password, userProfile.password, (_err: Error, same: boolean) => {
 
                         if (request.session !== undefined) {
@@ -289,7 +289,7 @@ export class Controller {
 
                     terminal.red(`${err}\n\n`);
 
-                    response.status(422).json(err);
+                    response.status(401).json(err);
                 }
             })
             .catch((err: string) => {
@@ -327,10 +327,12 @@ export class Controller {
                             matches: []
                         };
 
+                        delete newUser._id;
+
                         this.database.createNewUser(newUser)
 
                             .then((user: IUser) => {
-
+      
                                 if (request.session !== undefined) {
 
                                     request.session.isLoggedIn = true;

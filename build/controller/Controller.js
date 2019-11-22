@@ -183,7 +183,7 @@ class Controller {
             else {
                 const err = `Error: No account found with submitted email:  ${creds.email}`;
                 terminal_kit_1.terminal.red(`${err}\n\n`);
-                response.status(422).json(err);
+                response.status(401).json(err);
             }
         })
             .catch((err) => {
@@ -209,6 +209,7 @@ class Controller {
                         stances: [],
                         matches: []
                     };
+                    delete newUser._id;
                     this.database.createNewUser(newUser)
                         .then((user) => {
                         if (request.session !== undefined) {

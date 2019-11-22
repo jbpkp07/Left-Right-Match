@@ -47,7 +47,6 @@ class LoginSignUp extends Component {
 
 
   render() {
-    console.log('render() state======= ', this.state)
 
     return (
       <div>

@@ -4,8 +4,6 @@ import { Col, Row, Container } from "../components/Grid/Grid"
 import Nav from '../components/Nav/Nav'
 import { List, ListItem } from "../components/List/List"
 import API from "../utils/API"
-// import candidateData from "../utils/candidates.json"
-import thumbnail from "../images/unknown.jpg"
 import banner from "../images/allCandidates.jpg"
 import "./pageStyles/Candidates.css"
 
@@ -20,7 +18,6 @@ class Candidates extends Component {
             name: "",
             image: "",
             id: "",
-            // allCandidates: candidateData,
             allCandidates: {},
             profileData: {}
         }
@@ -126,7 +123,7 @@ class Candidates extends Component {
                                             >
                                                 <ul className="list-unstyled" data-id={candidate._id}>
 
-                                                    <img src={thumbnail} className="img-thumbnail float-left mr-4" width="100px" alt={candidate.name} data-id={candidate._id} />
+                                                    <img src={candidate.img} className="img-thumbnail float-left mr-4" width="225px" alt={candidate.name} data-id={candidate._id} />
                                                     {/* <img src={candidate.img} className="img-thumbnail float-left mr-4"  width="100px" alt={candidate.name} /> */}
 
                                                     <h2 data-id={candidate._id} className="font-weight-bold">
@@ -135,18 +132,22 @@ class Candidates extends Component {
 
                                                     <li data-id={candidate._id}>
                                                         <span data-id={candidate._id} className="font-weight-bold">Political parties: </span>
-                                                        
-                                                        {/* mapped because no whitespace between each index values */}
-                                                        {candidate.parties.map(party => {
-                                                            return party + ", "
-                                                        })}
+                                                        {candidate.parties.join(", ")}
                                                     </li>
 
                                                     <li data-id={candidate._id}>
                                                         <span data-id={candidate._id} className="font-weight-bold">Top Qualities: </span>
-                                                        {candidate.qualities.map(quality => {
-                                                            return quality + ", "
-                                                        })}
+                                                        {candidate.qualities.join(", ")}
+                                                    </li>
+
+                                                    <li data-id={candidate._id}>
+                                                        <span data-id={candidate._id} className="font-weight-bold">Experience: </span>
+                                                        {candidate.experiences.join(", ")}
+                                                    </li>
+
+                                                    <li data-id={candidate._id}>
+                                                        <span data-id={candidate._id} className="font-weight-bold">Themes: </span>
+                                                        {candidate.themes.join(", ")}
                                                     </li>
                                                 </ul>
                                             </ListItem>

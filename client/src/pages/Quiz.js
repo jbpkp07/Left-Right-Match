@@ -15,6 +15,10 @@ class Quiz extends Component {
 
   constructor(props) {
     super(props);
+
+    console.log(props);
+
+
     this.state = {
       loading: false,
       isProblem: false,
@@ -24,8 +28,8 @@ class Quiz extends Component {
       value: "",
       ////////////////////
       // keys for res.data
-      isLoggedIn: "",
-      userId: "",
+      isLoggedIn: props.isLoggedIn,
+      userId: props.userId,
       questionsData: [],
       key: "",
       name: ""
@@ -102,7 +106,7 @@ class Quiz extends Component {
     this.setState({ completed: true })
 
     // send this.state.answers to axios.post() to database
-    API.saveUserAnswers(this.state.answers)
+    API.postUserAnswers(this.state.answers)
 
       .then(res => {
 
@@ -123,7 +127,7 @@ class Quiz extends Component {
 
   render() {
 
-    console.log('render() state========= ', this.state)
+    console.log(this.state.userId);
 
     return (
 

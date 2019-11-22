@@ -1,102 +1,145 @@
-// dependencies
 import React from 'react'
-// import axios from 'axios'
 import "./SignUpForm.css"
+import API from "../../utils/API";
 
-function SignUp(props) {
+class SignUp extends React.Component {
 
-  // Define the form submission handler, to be used in the `onSubmit` event
-  const handleLoginFormSubmit = (evt) => {
-    evt.preventDefault();
-    console.log("signup.js handleSubmit evt ", evt)
-  }
+    state = {
+        name: "",
+        email: "",
+        password: ""
+    };
 
-  return (
-    <div className="signUpForm">
+    handleInputChange = (event) => {
 
-      <div className="row">
-        <div className="col-md-6 mx-auto">
-          <h1>Sign Up</h1>
-        </div>
-      </div>
+        const name = event.target.name;
+        const value = event.target.value;
 
-      <form onSubmit={handleLoginFormSubmit}>
-        <div className="row ">
-          <div className="col-md-6 mx-auto">
-            <div className="form-group">
-              <label htmlFor="firstNameInput">
-                First Name
-              </label>
-              <input
-                type="text"
-                id="firstNameInput"
-                name="firstName"
-                className="form-control"
-              // onChange={evt => setFirstName(evt.target.value)}
-              />
+        const newState = {
+
+            [name]: value
+        };
+
+        this.setState(newState);
+    }
+
+    handleSubmit = (event) => {
+
+        if (this.state.name.length !== 0 && this.state.email.length !== 0 && this.state.password.length >= 8) {
+
+            event.preventDefault();
+
+            API.signup(this.state)
+
+                .then((result) => {
+
+                    console.log(result.data);
+
+                    const clearState = {
+
+                        name: "",
+                        email: "",
+                        password: ""
+                    };
+
+                    this.setState(clearState);
+                })
+                .catch((err) => {
+                    
+                    console.log(err);
+                });
+        }
+    }
+
+    render() {
+
+        return (
+
+            <div className="signUpForm">
+
+                <div className="row">
+                    <div className="col-md-6 mx-auto">
+                        <h1>Sign Up</h1>
+                    </div>
+                </div>
+
+                <form>
+                    <div className="row">
+                        <div className="col-md-6 mx-auto">
+                            <div className="form-group">
+                                <label htmlFor="nameInput">
+                                    Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="nameInput"
+                                    name="name"
+                                    className="form-control"
+                                    spellCheck={false}
+                                    autoComplete="off"
+                                    required={true}
+                                    autoFocus={true}
+                                    value={this.state.name}
+                                    onChange={this.handleInputChange}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-md-6 mx-auto">
+                            <div className="form-group">
+                                <label htmlFor="emailInput">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    id="emailInput"
+                                    name="email"
+                                    className="form-control"
+                                    spellCheck={false}
+                                    autoComplete="off"
+                                    required={true}
+                                    value={this.state.email}
+                                    onChange={this.handleInputChange}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-md-6 mx-auto">
+                            <div className="form-group">
+                                <label htmlFor="passwordInput">
+                                    Password (8 characters minimum)
+                                </label>
+                                <input
+                                    type="password"
+                                    id="passwordInput"
+                                    className="form-control"
+                                    name="password"
+                                    spellCheck={false}
+                                    autoComplete="off"
+                                    minLength={8}
+                                    required={true}
+                                    value={this.state.password}
+                                    onChange={this.handleInputChange}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col">
+                            <button type="submit" onClick={this.handleSubmit}>Sign Up</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-6 mx-auto">
-            <div className="form-group">
-              <label htmlFor="lastNameInput">
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="lastNameInput"
-                name="lastName"
-                className="form-control"
-              // onChange={evt => setLastName(evt.target.value)}
-              />
-            </div>
-          </div>
-        </div>
+        );
+    }
 
-        <div className="row">
-          <div className="col-md-6 mx-auto">
-            <div className="form-group">
-              <label htmlFor="emailInput">
-                Email
-              </label>
-              <input
-                type="email"
-                id="emailInput"
-                name="email"
-                className="form-control"
-              // onChange={evt => setEmail(evt.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-md-6 mx-auto">
-            <div className="form-group">
-              <label htmlFor="passwordInput">
-                Password
-              </label>
-              <input
-                type="current-password"
-                id="passwordInput"
-                className="form-control"
-                name="password"
-              // onChange={evt => setPassword(evt.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col">
-            <button type="submit">Sign Up</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  );
 }
 
 export default SignUp;

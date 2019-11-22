@@ -2,31 +2,93 @@ import axios from 'axios';
 
 export default {
 
-    getQuestions: function () {
-        return axios.get("/api/questions/");
-    },
-
     getAllCandidates: function () {
-        console.log("API getAllCandidates hit")
-        return axios.get("/api/candidates");
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.get("/api/candidates", axiosConfig);
     },
 
     getCandidate: function (id) {
-        console.log('API.js getCandidate(id)= ', id)
-        return axios.get("/api/candidates/" + id);
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.get("/api/candidates/" + id, axiosConfig);
+    },
+
+    getQuestions: function () {
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.get("/api/quiz", axiosConfig);
+    },
+
+    postUserAnswers: function (answersData) {
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.post("/api/quiz", answersData, axiosConfig);
     },
 
     getUserProfile: function(id) {
-        return axios.get("/api/userprofile/" + id)
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.get("/api/user/" + id, axiosConfig);
     },
 
-    saveUserAnswers: function (answersData) {
-        console.log('ansData', answersData)
-        return axios.post("/api/answers", answersData);
+    startSession: function() {
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.get("/api/sessions/start", axiosConfig);
+    },
+
+    login: function(creds) {
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.post("/api/sessions/login", creds, axiosConfig);
+    },
+
+    signup: function(info) {
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.post("/api/sessions/signup", info, axiosConfig);
     },
     
-    getCandidateMatches: function (id) {
-        console.log('API getMatch id= ', id)
-        return axios.get("/api/candidatematches/" + id);
-    }
+    logout: function() {
+
+        const axiosConfig = {
+            
+            withCredentials: true
+        };
+
+        return axios.get("/api/sessions/logout", axiosConfig);
+    },
 };

@@ -266,7 +266,12 @@ class Controller {
     logout(request, response) {
         if (request.session !== undefined) {
             request.session.destroy(() => {
-                response.json({ success: true });
+                const sessionState = {
+                    isLoggedIn: false,
+                    userId: "",
+                    matches: []
+                };
+                response.json(sessionState);
             });
         }
         else {

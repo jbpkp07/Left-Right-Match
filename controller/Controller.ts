@@ -413,7 +413,14 @@ export class Controller {
 
             request.session.destroy(() => {
 
-                response.json({ success: true });
+                const sessionState: ISessionState = {
+
+                    isLoggedIn: false,
+                    userId: "",
+                    matches: []
+                };
+    
+                response.json(sessionState);
             });
         }
         else {

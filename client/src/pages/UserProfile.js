@@ -2,7 +2,6 @@
 import React, { Component } from "react"
 import { Col, Row, Container } from "../components/Grid/Grid"
 import UProfileCard from "../components/UProfileCard/UProfileCard"
-import Nav from "../components/Nav/Nav"
 import { Results, ResultsItems } from "../components/Results/Results"
 import img1 from "../images/unknown.jpg"
 import { QuizFormItem } from "../components/QuizForm/QuizForm"
@@ -78,7 +77,6 @@ class UserProfile extends Component {
         return (
 
             <div>
-                <Nav />
                 <Container specs="uProfile">
                     <Row>
                         <Col size="col-12">

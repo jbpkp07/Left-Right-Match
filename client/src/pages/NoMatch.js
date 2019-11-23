@@ -1,17 +1,15 @@
 import React from "react"
 import { Col, Row, Container } from "../components/Grid/Grid"
 import Jumbotron from "../components/Jumbotron/Jumbotron"
-import Nav from "../components/Nav/Nav"
 
 function NoMatch() {
   return (
     <div>
-      <Nav />
       <Container fluid>
         <Row>
           <Col size="col-md-12">
             <Jumbotron>
-              <h1>401 Unauthorized</h1>
+              <h1>404 Not Found</h1>
               <h1>
                 <span role="img" aria-label="Face With Rolling Eyes Emoji">
                 🙄 

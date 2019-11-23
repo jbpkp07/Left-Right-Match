@@ -1,7 +1,6 @@
 // dependencies
 import React, { Component } from "react"
 import { Col, Row, Container } from "../components/Grid/Grid"
-import Nav from '../components/Nav/Nav'
 import { List, ListItem } from "../components/List/List"
 import API from "../utils/API"
 import banner from "../images/allCandidates.jpg"
@@ -73,7 +72,6 @@ class Candidates extends Component {
 
         return (
             <div>
-                <Nav />
                 <Row fluid>
                     <Col size="mx-auto">
                         <div className="candidatesBanner">

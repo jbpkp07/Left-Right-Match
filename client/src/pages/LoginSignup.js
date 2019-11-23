@@ -1,6 +1,5 @@
 // dependencies
 import React, { Component } from "react"
-import Nav from "../components/Nav/Nav"
 import Jumbotron from "../components/Jumbotron/Jumbotron"
 import { Col, Row, Container } from "../components/Grid/Grid"
 import LoginForm from "../components/LoginForm/LoginForm"
@@ -50,7 +49,6 @@ class LoginSignUp extends Component {
 
     return (
       <div>
-        <Nav />
         <Jumbotron>
           <h1>Which Political Candidate Are You Most Like?</h1>
         </Jumbotron>

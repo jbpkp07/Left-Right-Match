@@ -47,7 +47,7 @@ class Login extends React.Component {
                         
                         setTimeout(() => {
                             
-                            this.props.history.push(`/userprofile/${result.data.userId}`);
+                            window.location.replace(`/userprofile/${result.data.userId}`);
 
                         }, 1000);
                     });

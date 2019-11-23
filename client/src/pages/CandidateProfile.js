@@ -1,7 +1,6 @@
 // dependencies
 import React, { Component } from "react"
 import { Col, Row, Container } from "../components/Grid/Grid"
-import Nav from "../components/Nav/Nav"
 import ProfileCard from "../components/ProfileCard/ProfileCard"
 import "./pageStyles/CandidateProfile.css"
 import API from "../utils/API"
@@ -38,7 +37,6 @@ class CandidateProfile extends Component {
 
             return (
                 <div>
-                    <Nav />
                     <div className="banner">
                         <img className="banner-img" src={this.state.candidate.bannerImg} alt={this.state.candidate.name} />
                     </div>
@@ -60,9 +58,7 @@ class CandidateProfile extends Component {
 
             return ( 
 
-                <div>
-                    <Nav />
-                </div>
+                <div></div>
             );
         }
     }

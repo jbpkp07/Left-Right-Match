@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { Col, Row, Container } from "../components/Grid/Grid"
-import Nav from "../components/Nav/Nav"
 import { Results, ResultsItems } from "../components/Results/Results"
 import API from "../utils/API";
 import "./pageStyles/CandidateMatches.css"
@@ -66,7 +65,6 @@ class CandidateMatches extends Component {
 
         return (
             <div>
-                <Nav />
                 <Container specs="uProfile">
                     <Row>
                         <Col size="col-12">

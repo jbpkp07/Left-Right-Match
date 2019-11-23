@@ -11,6 +11,7 @@ import CandidateProfile from "./pages/CandidateProfile";
 import LoginSignUp from "./pages/LoginSignup";
 import Logout from "./pages/Logout";
 import CandidateMatches from "./pages/CandidateMatches";
+import Nav from "./components/Nav/Nav";
 
 class App extends React.Component {
 
@@ -42,45 +43,39 @@ class App extends React.Component {
             });
     }
 
-    // renderQuiz() {
+    logout = () => {
 
-    //     if (this.state.isMounted) {
+        API.logout()
 
-    //         return (
-
-    //             <Route exact={true} path="/quiz" render={() => <Quiz {...this.state} />} />
-    //         );
-    //     }
-    // }
-
-    // renderMatches() {
-
-    //     if (this.state.isMounted) {
-
-    //         return (
-
-    //             <Route exact={true} path="/candidatematches" render={() => <CandidateMatches {...this.state} />} />
-    //         );
-    //     }
-    // }
+        .then((sessionState) => {
+            
+            this.setState(sessionState);
+        })
+        .catch((err) => {
+            
+            console.log(err);
+        });
+    }
 
     render() {
 
         return (
-
-            <BrowserRouter>
-                <Switch>
-                    <Route exact={true} path="/" component={FrontPage} />
-                    <Route exact={true} path="/quiz" component={Quiz} />
-                    <Route exact={true} path="/candidatematches" component={CandidateMatches} />
-                    <Route exact={true} path="/candidates" component={Candidates} />
-                    <Route exact={true} path="/candidateprofile/:id" component={CandidateProfile} />
-                    <Route exact={true} path="/login" component={LoginSignUp} />
-                    <Route exact={true} path="/logout" component={Logout} />
-                    <Route exact={true} path="/userprofile/:id" component={UserProfile} />
-                    <Route component={NoMatch} />
-                </Switch>
-            </BrowserRouter>
+            <div>
+                {this.state.isMounted && <Nav {...this.state} logout={this.logout} />}
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact={true} path="/" component={FrontPage} />
+                        <Route exact={true} path="/quiz" component={Quiz} />
+                        <Route exact={true} path="/candidatematches" component={CandidateMatches} />
+                        <Route exact={true} path="/candidates" component={Candidates} />
+                        <Route exact={true} path="/candidateprofile/:id" component={CandidateProfile} />
+                        <Route exact={true} path="/login" component={LoginSignUp} />
+                        <Route exact={true} path="/logout" component={Logout} />
+                        <Route exact={true} path="/userprofile/:id" component={UserProfile} />
+                        <Route component={NoMatch} />
+                    </Switch>
+                </BrowserRouter>
+            </div>
         );
     }
 }

@@ -51,7 +51,7 @@ class SignUp extends React.Component {
                         
                         setTimeout(() => {
                             
-                            this.props.history.push("/quiz");
+                            window.location.replace("/quiz");
 
                         }, 1000);
                     });

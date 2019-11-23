@@ -3,7 +3,6 @@ import React, { Component } from "react"
 import { Col, Row, Container } from "../components/Grid/Grid"
 import Image from "../components/Image/Image"
 import logoImg from "../images/lrmLogo.png"
-import Nav from "../components/Nav/Nav"
 
 class FrontPage extends Component {
 
@@ -14,7 +13,6 @@ class FrontPage extends Component {
     render() {
         return (
             <div>
-                <Nav />
                 <Container fluid>
                     <Row fluid>
                         <Col size="mx-auto">

@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import Nav from "../components/Nav/Nav"
 import Jumbotron from "../components/Jumbotron/Jumbotron"
 import { Col, Row, Container } from "../components/Grid/Grid"
 import { QuizForm, QuizFormItem, RadioInput, FormBtn } from "../components/QuizForm/QuizForm"
@@ -121,7 +120,6 @@ class Quiz extends Component {
         return (
 
             <div>
-                <Nav />
                 <Jumbotron specs="quizHead">
                     <h1>Quiz</h1>
                     <h1>Which Political Candidate Are You Most Like?</h1>

@@ -42,16 +42,27 @@ class App extends React.Component {
             });
     }
 
-    renderQuiz() {
+    // renderQuiz() {
 
-        if (this.state.isMounted && this.state.isLoggedIn) {
+    //     if (this.state.isMounted) {
 
-            return (
+    //         return (
 
-                <Route exact={true} path="/quiz" render={() => <Quiz {...this.state} />} />
-            );
-        }
-    }
+    //             <Route exact={true} path="/quiz" render={() => <Quiz {...this.state} />} />
+    //         );
+    //     }
+    // }
+
+    // renderMatches() {
+
+    //     if (this.state.isMounted) {
+
+    //         return (
+
+    //             <Route exact={true} path="/candidatematches" render={() => <CandidateMatches {...this.state} />} />
+    //         );
+    //     }
+    // }
 
     render() {
 
@@ -60,15 +71,13 @@ class App extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact={true} path="/" component={FrontPage} />
-                    {/* {this.state.isMounted && this.state.isLoggedIn && <Route exact={true} path="/quiz" render={() => <Quiz {...this.state} />} />} */}
-                    {this.renderQuiz()}
+                    <Route exact={true} path="/quiz" component={Quiz} />
                     <Route exact={true} path="/candidatematches" component={CandidateMatches} />
                     <Route exact={true} path="/candidates" component={Candidates} />
-                    <Route exact={true} path="/candidates/:id" component={CandidateProfile} />
-                    <Route exact={true} path="/candidatesprofile" component={CandidateProfile} />
+                    <Route exact={true} path="/candidateprofile/:id" component={CandidateProfile} />
                     <Route exact={true} path="/login" component={LoginSignUp} />
                     <Route exact={true} path="/logout" component={Logout} />
-                    <Route exact={true} path="/userprofile" component={UserProfile} />
+                    <Route exact={true} path="/userprofile/:id" component={UserProfile} />
                     <Route component={NoMatch} />
                 </Switch>
             </BrowserRouter>

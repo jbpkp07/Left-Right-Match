@@ -4,11 +4,16 @@ import API from "../../utils/API";
 
 class SignUp extends React.Component {
 
-    state = {
-        name: "",
-        email: "",
-        password: ""
-    };
+    constructor(props) {
+
+        super(props);
+
+        this.state = {
+            name: "",
+            email: "",
+            password: ""
+        };
+    }
 
     handleInputChange = (event) => {
 
@@ -42,7 +47,14 @@ class SignUp extends React.Component {
                         password: ""
                     };
 
-                    this.setState(clearState);
+                    this.setState(clearState, () => {
+                        
+                        setTimeout(() => {
+                            
+                            this.props.history.push("/quiz");
+
+                        }, 1000);
+                    });
                 })
                 .catch((err) => {
                     
@@ -66,7 +78,7 @@ class SignUp extends React.Component {
                 <form>
                     <div className="row">
                         <div className="col-md-6 mx-auto">
-                            <div className="form-group">
+                            <div className="form-group2">
                                 <label htmlFor="nameInput">
                                     Name
                                 </label>
@@ -88,7 +100,7 @@ class SignUp extends React.Component {
 
                     <div className="row">
                         <div className="col-md-6 mx-auto">
-                            <div className="form-group">
+                            <div className="form-group2">
                                 <label htmlFor="emailInput">
                                     Email
                                 </label>
@@ -109,7 +121,7 @@ class SignUp extends React.Component {
 
                     <div className="row">
                         <div className="col-md-6 mx-auto">
-                            <div className="form-group">
+                            <div className="form-group2">
                                 <label htmlFor="passwordInput">
                                     Password (8 characters minimum)
                                 </label>

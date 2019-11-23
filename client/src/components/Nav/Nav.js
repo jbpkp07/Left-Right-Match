@@ -14,7 +14,6 @@ function Nav() {
             <div className="navbar-nav p-2">
                 <a className="navbar-item nav-link" href="/quiz">Quiz</a>
                 <a className="navbar-item nav-link" href="/candidates">Candidates</a>
-                <a className="navbar-item nav-link" href="/candidatesprofile">Candidate Profile</a>
                 <a className="navbar-item nav-link" href="/login">Login</a>                
             </div>
         </nav>

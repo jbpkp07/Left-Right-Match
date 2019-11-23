@@ -4,7 +4,7 @@ import "./QuizForm.css"
 export function QuizForm(props) {
     return (
         <div className={props.specs}>
-            <form 
+            <form
                 onSubmit={props.handleQuizSubmit}
             >
                 {props.children}
@@ -18,7 +18,7 @@ export function QuizFormItem(props) {
         <div className="form-group">
             <div className="label" >
                 {props.name}
-                <h3>{props.question}</h3>
+                <h5>{props.question}</h5>
             </div>
             {props.children}
         </div>
@@ -26,33 +26,36 @@ export function QuizFormItem(props) {
 }
 
 export function RadioInput(props) {
+
     return (
-        <div className="form-control chosen" answer-id={props.id} {...props}>
-            <label className="radio">
-                <input
-                    type="radio"
-                    name={props.name}
-                    onChange={props.handleInputChange}
-                    value={props.value0}
-                />
-                <h5 className="radioLabel">{props.value0}</h5>
-            </label>
-            <label className="radio">
-                <input
-                    type="radio"
-                    name={props.name}
-                    onChange={props.handleInputChange}
-                    value={props.value1}
-                />
-                <h5 className="radioLabel">{props.value1}</h5>
-            </label>
+
+        <div className="radio-toolbar" answer-id={props.id} {...props}>
+
+            <input
+                id={props.name + props.value0}
+                type="radio"
+                name={props.name}
+                onChange={props.handleInputChange}
+                value={props.value0}
+            />
+            <label htmlFor={props.name + props.value0}>{props.value0}</label>
+
+            <input
+                id={props.name + props.value1}
+                type="radio"
+                name={props.name}
+                onChange={props.handleInputChange}
+                value={props.value1}
+            />
+            <label htmlFor={props.name + props.value1}>{props.value1}</label>
+
         </div>
     );
 }
 
 export function FormBtn(props) {
     return (
-        <button {...props} style={{ float: "right", marginBottom: 10 }} className="btn btn-secondary">
+        <button {...props} className="btn btn-primary">
             Submit
         </button>
     );

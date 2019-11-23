@@ -19,6 +19,7 @@ export interface ISessionState {
 
     isLoggedIn: boolean;
     userId: string;
+    matches: ICandidateMatch[];
 }
 
 export interface ICandidateMatch {

@@ -1,0 +1,7 @@
+.resultsStyles {
+    background: var(--bootstrap-primary-blue);
+    padding: 0 30px 30px 30px;
+    border-radius: 20px;
+    position: relative;
+    top: 30px;
+}

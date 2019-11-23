@@ -1,13 +1,14 @@
 .navTabItems {
-    border-radius: 5px;
-    border: solid thin var(--bright-red);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top: solid thin var(--dark-white);
+    border-left: solid thin var(--dark-white);
+    border-right: solid thin var(--dark-white);
 }
 
 .nav-tabs {
     border-radius: 5px;
     border: solid thin var(--bright-red);
-    /* background-image: linear-gradient(to top right, var(--light-blue), var(--light-red)); */
-
 }
 
 .signUpForm, .loginForm {

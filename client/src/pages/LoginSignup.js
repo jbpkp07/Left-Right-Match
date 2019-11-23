@@ -86,7 +86,7 @@ class LoginSignUp extends Component {
               <Col size="col mx-auto LSForm">
 
                 {/* Ternary: if seletedTab is equal to login, then call this compntnt; else call this compntnt */}
-                {this.state.selectedTab === "login" ? <LoginForm /> : <SignUpForm />}
+                {this.state.selectedTab === "login" ? <LoginForm {...this.props}/> : <SignUpForm {...this.props} />}
 
               </Col>
             </Row>

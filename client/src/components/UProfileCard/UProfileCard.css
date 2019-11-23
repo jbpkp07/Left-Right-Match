@@ -8,8 +8,9 @@
     width: 60vw;
     /* background-image: linear-gradient(to bottom right, var(--light-red),var(--light-blue)); */
     padding: 10px;
-   
+    margin-bottom: 100px;
 }
+
 .uCard {
     /* border-radius: 25px; */
     border: medium solid var(--bootstrap-primary-dark-blue);
@@ -23,4 +24,10 @@
 
 .ul-size {
     font-size: x-large;
+}
+
+.card-email {
+    color: var(--bootstrap-red);
+    font-size: 20pt;
+    margin-bottom: 20px;
 }

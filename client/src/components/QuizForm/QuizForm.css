@@ -1,10 +1,49 @@
-.radioLabel {
-    margin: 0 25px;
+.form-group {
+    /* background: var(--medium-white); */
+    border: 20px solid var(--bootstrap-primary-blue);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
 }
 
-.chosen {
-    border: medium solid var(--bootstrap-red);
-
+.radio-toolbar {
+    margin: 10px;
+}
+  
+.radio-toolbar input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+  
+.radio-toolbar label {
+    color: black;
+    display: inline-block;
+    background-color: var(--medium-white);
+    padding: 5px;
+    font-size: 18px;
+    border: 2px solid var(--lighter-gray);
+    border-radius: 5px;
+    margin: 10px 10px 0px 10px;
+    width: 120px;
+}
+  
+.radio-toolbar label:hover {
+    background-color: var(--light-blue-transparent);
+    cursor: pointer;
 }
 
+.radio-toolbar input[type="radio"]:checked + label {
+    background-color: var(--bootstrap-primary-blue);
+    border-color: var(--dark-blue);
+}
 
+button.btn.btn-primary {
+    background: var(--bootstrap-primary-blue);
+    float: right;
+    margin-bottom: 200px;
+}
+
+button.btn.btn-primary:hover {
+    background: var(--bright-blue);
+}

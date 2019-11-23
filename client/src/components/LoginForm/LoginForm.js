@@ -4,10 +4,15 @@ import API from "../../utils/API";
 
 class Login extends React.Component {
 
-    state = {
-        email: "",
-        password: ""
-    };
+    constructor(props) {
+        
+        super(props);
+
+        this.state = {
+            email: "",
+            password: ""
+        };
+    }
 
     handleSearchInputChange = (event) => {
 
@@ -32,18 +37,24 @@ class Login extends React.Component {
 
                 .then((result) => {
 
-                    console.log(result.data);
-
                     const clearState = {
 
                         email: "",
                         password: ""
                     };
 
-                    this.setState(clearState);
+                    this.setState(clearState, () => {
+                        
+                        setTimeout(() => {
+                            
+                            this.props.history.push(`/userprofile/${result.data.userId}`);
+
+                        }, 1000);
+                    });
                 })
                 .catch((err) => {
 
+                    alert("Credentials not valid, try again...");
                     console.log(err);
                 });
         }
@@ -63,7 +74,7 @@ class Login extends React.Component {
                 <form>
                     <div className="row">
                         <div className="col-md-6 mx-auto">
-                            <div className="form-group">
+                            <div className="form-group2">
                                 <label htmlFor="emailLoginInput">
                                     Email
                                 </label>
@@ -84,7 +95,7 @@ class Login extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-md-6 mx-auto">
-                            <div className="form-group">
+                            <div className="form-group2">
                                 <label htmlFor="passwordLoginInput">
                                     Password
                                 </label>

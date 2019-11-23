@@ -4,49 +4,103 @@ import { Col, Row, Container } from "../components/Grid/Grid"
 import UProfileCard from "../components/UProfileCard/UProfileCard"
 import Nav from "../components/Nav/Nav"
 import { Results, ResultsItems } from "../components/Results/Results"
-import images from "../utils/images.json"
 import img1 from "../images/unknown.jpg"
-// import API from "../utils/API";
+import { QuizFormItem } from "../components/QuizForm/QuizForm"
+import API from "../utils/API";
+import "./pageStyles/UserProfile.css"
 
 class UserProfile extends Component {
 
     constructor(props) {
+
         super(props);
+
         this.state = {
             userId: "",
-            name1: "[ Insert User's Name Here ]",
-            images,
+            userData: {},
+            isMounted: false
         }
     }
-    componentDidMount = () => {
-        this.setState({
-            name: images[0].alt,
-            src: images[0].src
-        })
+
+    componentDidMount() {
+
+        const { id } = this.props.match.params;
+
+        API.getUserProfile(id)
+            .then((res) => {
+
+                this.setState({ userId: id, userData: res.data, isMounted: true });
+            })
+            .catch(err => console.log(err));
     }
- 
+
+    showResults = () => {
+
+        return (
+
+            this.state.userData.matches.map(result => {
+
+                return (
+
+                    <ResultsItems
+                        key={result.name}
+                        name={result.name}
+                        image={result.headImg}
+                        percentage={`${result.percentageMatch}%`}
+                    />
+                );
+            })
+        );
+    }
+
+    renderQuestions = () => {
+
+        let count = 0;
+
+        return (
+
+            this.state.userData.stances.map(question => {
+                count++;
+                return (
+
+                    <div className="userQuestion" key={question.key}>
+                        <QuizFormItem key={question.key} question={`(${count} of ${this.state.userData.stances.length}) - ${question.question}`} >
+                            <div className="userStance">{question.stance}</div>
+                        </QuizFormItem>
+                    </div>
+                );
+            })
+        )
+    }
 
     render() {
-        console.log('state', this.state)
+
         return (
+
             <div>
                 <Nav />
                 <Container specs="uProfile">
                     <Row>
-                        <Col size="col-md mx-auto">
-                            {/* <img src={this.state.src} alt="profile" /> */}
+                        <Col size="col-12">
+
                             <UProfileCard
-                                name={this.state.name}
+                                name={this.state.userData.name}
+                                email={this.state.userData.email}
                                 img={img1}
                             />
-                            <Results />
-                            <ResultsItems>
-                                
-                            </ResultsItems>
+
+                            <div className="resultsStyles mx-auto">
+
+                                <Results />
+
+                                {this.state.isMounted && this.showResults()}
+                            </div>
+
+                            <div className="userQuestions">
+                                {this.state.isMounted && this.renderQuestions()}
+                            </div>
                         </Col>
                     </Row>
-
-                   
                 </Container >
             </div >
         );

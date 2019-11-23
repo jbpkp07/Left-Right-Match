@@ -1,14 +1,20 @@
 .candidate-img {
-    height: 250px;
-    width: 250px;
+    height: 225px;
+    width: 225px;
 }
 .card {
-    border: thin solid var(--light-blue);
-    width: 60vw;
+    border: 25px solid var(--bootstrap-primary-blue);
+    border-radius: 25px;
+    width: 100%;
     /* background-image: linear-gradient(to bottom right, var(--light-red),var(--light-blue)); */
     padding: 10px;
    
 }
+
+div.card.candidate-card.p-0 {
+    border-radius: 10px;
+}
+
 .p-size {
     font-size: medium;
     margin: 5px;
@@ -17,5 +23,18 @@
 }
 
 .ul-size {
-    font-size: x-large;
+    font-size: 14pt;
+}
+
+.candidateLinks {
+    text-align: left;
+    margin: 15px;
+}
+
+a.card-link {
+    background: var(--medium-white);
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid var(--light-blue);
+    font-weight: 600;
 }

@@ -19,7 +19,8 @@ class Candidates extends Component {
             image: "",
             id: "",
             allCandidates: {},
-            profileData: {}
+            profileData: {},
+            selectedId: ""
         }
     }
 
@@ -57,36 +58,19 @@ class Candidates extends Component {
         // Get the data-value of the clicked candidate
         // expected id: value equal to candidates id in database
         const target = event.target.attributes.getNamedItem('data-id').value;
-        console.log('data-id=', target)
 
         this.setState({ selectedId: target }, this.getCandidateById)
     }
 
     // axios call to get candidate by _id in database
     getCandidateById = () => {
-
-        console.log("getCanById() selectedId===== ", this.state.selectedId)
         
-        // grab candidate id & request their profile data from db
-        // get() returns candidate profile data & renders specific CandidateProfile.js
-        API.getCandidate(this.state.selectedId)
-
-         // CRASHING HERE
-            // needs to save promise json from database to this empty obj 
-            // & redirect to candidate profile taht matches selectedId
-            .then(res => this.setState({ profileData: res.data })
-                // this.props.history.push("/candidates/ + res.data._id")
-            )
-            .catch(err => {
-                console.log(err)
-                // redirect to NoMatch page
-                this.props.history.push("/NoMatch")
-            })
+        this.props.history.push(`/candidateprofile/${this.state.selectedId}`);
     }
 
 
     render() {
-        console.log('render() ', this.state)
+
         return (
             <div>
                 <Nav />
@@ -95,7 +79,7 @@ class Candidates extends Component {
                         <div className="candidatesBanner">
                             <img className="banner-image" src={banner} alt={'2020-candidates'} />
                             <br />
-                            <span>All Candidates</span>
+                            <span>Candidates</span>
                         </div>
                     </Col>
                 </Row>
@@ -131,12 +115,12 @@ class Candidates extends Component {
                                                     </h2>
 
                                                     <li data-id={candidate._id}>
-                                                        <span data-id={candidate._id} className="font-weight-bold">Political parties: </span>
+                                                        <span data-id={candidate._id} className="font-weight-bold">Political Parties: </span>
                                                         {candidate.parties.join(", ")}
                                                     </li>
 
                                                     <li data-id={candidate._id}>
-                                                        <span data-id={candidate._id} className="font-weight-bold">Top Qualities: </span>
+                                                        <span data-id={candidate._id} className="font-weight-bold">Best Qualities: </span>
                                                         {candidate.qualities.join(", ")}
                                                     </li>
 

@@ -1,6 +1,6 @@
 :root {
-  --light-white: rgba(248,248,248,1.0);
-  --medium-white: rgba(232,232,232,1.0);
+  --light-white: rgba(240,240,240,1.0);
+  --medium-white: rgba(215,215,215,1.0);
   --dark-white: rgba(192,192,192,1.0);
   --dark-white-transparent: rgba(192,192,192,0.5);
 
@@ -17,6 +17,7 @@
   --bootstrap-primary-blue: #3f98e6; 
   --bootstrap-primary-blue1:#33b5e5;
   --bootstrap-primary-dark-blue: #0099CC;
+  --light-blue-transparent: rgba(147, 189, 249, 0.5);
   --light-blue: rgba(147, 189, 249, 1);
   --medium-blue: #3f98e6;
   --bright-blue: rgba(0, 170, 255, 1);

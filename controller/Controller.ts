@@ -144,6 +144,8 @@ export class Controller {
                             terminal.red(`${err}\n\n`);
                         });
                 }
+
+                request.session.matches = matches;
             }
             else {
 
@@ -209,7 +211,8 @@ export class Controller {
             const sessionState: ISessionState = {
 
                 isLoggedIn: request.session.isLoggedIn || false,
-                userId: request.session.userId || ""
+                userId: request.session.userId || "",
+                matches: request.session.matches || []
             };
 
             response.json(sessionState);
@@ -250,7 +253,8 @@ export class Controller {
                                 const sessionState: ISessionState = {
 
                                     isLoggedIn: request.session.isLoggedIn,
-                                    userId: request.session.userId
+                                    userId: request.session.userId,
+                                    matches: request.session.matches || []
                                 };
 
                                 response.json(sessionState);
@@ -263,7 +267,8 @@ export class Controller {
                                 const sessionState: ISessionState = {
 
                                     isLoggedIn: request.session.isLoggedIn,
-                                    userId: request.session.userId
+                                    userId: request.session.userId,
+                                    matches: request.session.matches || []
                                 };
 
                                 const err: string = "Error: Password does not match user email.";
@@ -341,7 +346,8 @@ export class Controller {
                                     const sessionState: ISessionState = {
 
                                         isLoggedIn: request.session.isLoggedIn,
-                                        userId: request.session.userId
+                                        userId: request.session.userId,
+                                        matches: request.session.matches || []
                                     };
 
                                     response.json(sessionState);
@@ -377,7 +383,8 @@ export class Controller {
                         const sessionState: ISessionState = {
 
                             isLoggedIn: request.session.isLoggedIn,
-                            userId: request.session.userId
+                            userId: request.session.userId,
+                            matches: request.session.matches || []
                         };
 
                         response.status(422).json(sessionState);

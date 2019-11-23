@@ -91,6 +91,7 @@ class Controller {
                         terminal_kit_1.terminal.red(`${err}\n\n`);
                     });
                 }
+                request.session.matches = matches;
             }
             else {
                 const err = "Error: Express sessions not running correctly.";
@@ -132,7 +133,8 @@ class Controller {
         if (request.session !== undefined) {
             const sessionState = {
                 isLoggedIn: request.session.isLoggedIn || false,
-                userId: request.session.userId || ""
+                userId: request.session.userId || "",
+                matches: request.session.matches || []
             };
             response.json(sessionState);
         }
@@ -157,7 +159,8 @@ class Controller {
                             request.session.userId = userProfile._id;
                             const sessionState = {
                                 isLoggedIn: request.session.isLoggedIn,
-                                userId: request.session.userId
+                                userId: request.session.userId,
+                                matches: request.session.matches || []
                             };
                             response.json(sessionState);
                         }
@@ -166,7 +169,8 @@ class Controller {
                             request.session.userId = "";
                             const sessionState = {
                                 isLoggedIn: request.session.isLoggedIn,
-                                userId: request.session.userId
+                                userId: request.session.userId,
+                                matches: request.session.matches || []
                             };
                             const err = "Error: Password does not match user email.";
                             terminal_kit_1.terminal.red(`${err}\n\n`);
@@ -217,7 +221,8 @@ class Controller {
                             request.session.userId = user._id;
                             const sessionState = {
                                 isLoggedIn: request.session.isLoggedIn,
-                                userId: request.session.userId
+                                userId: request.session.userId,
+                                matches: request.session.matches || []
                             };
                             response.json(sessionState);
                         }
@@ -241,7 +246,8 @@ class Controller {
                     request.session.userId = "";
                     const sessionState = {
                         isLoggedIn: request.session.isLoggedIn,
-                        userId: request.session.userId
+                        userId: request.session.userId,
+                        matches: request.session.matches || []
                     };
                     response.status(422).json(sessionState);
                 }

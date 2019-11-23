@@ -2,9 +2,9 @@ import React from "react"
 import "./ProfileCard.css"
 
 function ProfileCard(props) {
-    console.log(Array.isArray(props.parties))
+
     return (
-        <div className="card candidate-card p-0">
+        <div className="card candidate-card p-1">
             <div>
                 <img className="card-img-top candidate-img" src={props.img} alt={props.name} />
             </div>
@@ -13,28 +13,65 @@ function ProfileCard(props) {
 
             </div>
             <ul className="list-group list-group-flush ul-size">
-                <li className="list-group-item">Political Parties:
-                
-                {/* <p className="p-size">{props.parties.map(party => {
-                                                            return party + ", "
-                                                        })}}</p> */}
-
-                <p className="p-size">{props.parties}</p>
+                <li className="list-group-item">
+                    <span className="font-weight-bold">Political Parties: </span>
+                    <span>{props.parties.join(", ")}</span>
                 </li>
-                <li className="list-group-item">Themes:
-                <p className="p-size">{props.themes}</p>
+                <li className="list-group-item">
+                    <span className="font-weight-bold">Best Qualities: </span>
+                    <span>{props.qualities.join(", ")}</span>
                 </li>
-                <li className="list-group-item">Best Qualities:
-                <p className="p-size">{props.qualities}</p>
-                    <a href={props.policies} className="ul-size">Policies</a>
+                <li className="list-group-item">
+                    <span className="font-weight-bold">Experience: </span>
+                    <span>{props.experiences.join(", ")}</span>
                 </li>
-                <li className="list-group-item">Political Experience:
-                <p className="p-size">{props.experiences}</p>
+                <li className="list-group-item">
+                    <span className="font-weight-bold">Themes: </span>
+                    <span>{props.themes.join(", ")}</span>
                 </li>
             </ul>
             <div className="card-body">
-                <a href={props.websites} className="card-link">Official Website</a>
-                <a href={props.iSideLink} className="card-link">iSideWith Profile</a>
+                <div className="candidateLinks">
+                    <span className="font-weight-bold">iSideWith Links: &nbsp;&nbsp;</span>
+                    <a href={props.iSideLink} target="_blank" rel="noopener noreferrer" className="card-link">Profile</a>
+                    <a href={props.policyLink} target="_blank" rel="noopener noreferrer" className="card-link">Policies</a>
+                </div>
+                <div className="candidateLinks">
+                    <span className="font-weight-bold">Official Website(s): &nbsp;&nbsp;</span>
+                    {props.contactInfo.websites.map((site) => {
+
+                        return (
+                            <a href={site} target="_blank" rel="noopener noreferrer" key={site} className="card-link">{site}</a>
+                        );
+                    })}
+                </div>
+                <div className="candidateLinks">
+                    <span className="font-weight-bold">Twitter Account(s): &nbsp;&nbsp;</span>
+                    {props.contactInfo.twitterAccounts.map((site) => {
+
+                        return (
+                            <a href={site} target="_blank" rel="noopener noreferrer" key={site} className="card-link">{site}</a>
+                        );
+                    })}
+                </div>
+                <div className="candidateLinks">
+                    <span className="font-weight-bold">Facebook Account(s): &nbsp;&nbsp;</span>
+                    {props.contactInfo.facebookAccounts.map((site) => {
+
+                        return (
+                            <a href={site} target="_blank" rel="noopener noreferrer" key={site} className="card-link">{site}</a>
+                        );
+                    })}
+                </div>
+                <div className="candidateLinks">
+                    <span className="font-weight-bold">Instagram Account(s): &nbsp;&nbsp;</span>
+                    {props.contactInfo.instagramAccounts.map((site) => {
+
+                        return (
+                            <a href={site} target="_blank" rel="noopener noreferrer" key={site} className="card-link">{site}</a>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

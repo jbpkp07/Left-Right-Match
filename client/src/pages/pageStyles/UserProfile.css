@@ -1,0 +1,11 @@
+.userQuestions{
+    margin-top: 80px;
+}
+
+.userStance {
+    color: var(--bootstrap-red);
+    width: 120px;
+    padding: 5px;
+    margin: 0 auto;
+    font-size: 18pt;
+}

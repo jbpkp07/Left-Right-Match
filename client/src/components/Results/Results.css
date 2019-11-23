@@ -1,26 +1,33 @@
 .rTitle {
-    /* background-image: linear-gradient(to bottom right, var(--lighter-gray-transparent),var(--blue-grey-slight)); */
-    /* background-image: linear-gradient(to bottom right, var(--lighter-gray),var(--blue-grey-slight)); */
-    padding: 30px;
-    font-size: 3em;
+    position: relative;
+    bottom: 80px;
+    font-size: 30pt;
+    color: var(--bootstrap-primary-blue);
 }
  
-.rImg {
-    width: 200px;
-    height: 200px;
-    /* margin: 25px; */
+.resultsDiv {
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
-.rItems {
-    vertical-align: middle;
-    padding: 60px 0 0;
-    font-size: 2em;
-    /* border: thin solid limegreen; */
+.rImg {
+    width: 120px;
+    height: 120px;
+}
 
+.rItems, .rPercentage {
+    padding-top: 30px;
+    font-size: 24pt;
+}
+
+.rPercentage {
+    color: var(--bootstrap-red);
 }
 
 .rRow {
-    line-height: 20vh;
-    border: thin solid var(--lighter-gray-transparent);
-
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 } 
